@@ -1,105 +1,138 @@
-import React,{Component} from 'react'
-import {Text,TextInput,TouchableOpacity,View,ActivityIndicator} from 'react-native'
-import AwesomeAlert from 'react-native-awesome-alerts';
-import axios from 'axios';
-
+import React, { Component } from 'react'
+import { View, Text,FlatList, TouchableOpacity } from 'react-native'
 import styles from './style'
+import { Table, Row, Rows } from 'react-native-table-component';
+import { ScrollView } from 'react-native-gesture-handler';
 
-export default class HomeScreen extends Component{
-
+export default class HomeScreen extends Component {
     static navigationOptions = {
-        header: null
-    }
+        title: 'Comprovante',
+    };
 
     constructor(props) {
         super(props);
 
         this.state = {
-            isLoading: false,
-            cpf: '06414191558',
-            senha: 'COCKNNOT',
-            success: false,
-            nome: '',
-            showAlert: false
+            cpf: null,
+            senha: null,
+            dados: '',
+            materias: ''
         };
     }
 
-    showAlert = () => {
-    this.setState({
-        showAlert: true
-    });
-    };
-
-    hideAlert = () => {
-    this.setState({
-        showAlert: false
-    });
-    };
-
-    sendSubmit = () => {
-        this.setState({isLoading:true})
-        let cpf = this.state.cpf
-        let senha = this.state.senha
-        axios.get('https://ayrtonsilas.com.br/conexao-siac/login.php?cpf='+cpf+'&senha='+senha)
-        .then((response) => {
-            if(response.data == ''){
-                this.setState({
-                    success: false
-                })
-                this.showAlert()
-            }else{
-                this.setState({
-                    nome: JSON.stringify(response.data[0][0]),
-                    success:true
-                })
-                this.props.navigation.navigate('Menu', {
-                    cpf: this.state.cpf,
-                    senha: this.state.senha,
-                    'nome': this.state.nome
-                })
+    componentDidMount() {
+        const cpf = this.props.navigation.getParam('cpf')
+        const senha = this.props.navigation.getParam('senha')
+        const dados = this.props.navigation.getParam('dados')
+        
+        let materiasKey = [];
+        let materias = [];
+        dados.MATERIAS_COMPROVANTE.forEach((mat,index) => {
+            if (!materiasKey.includes(mat.CODIGOMATERIA)) {
+                materiasKey.push(mat.CODIGOMATERIA);
+                materias.push(mat);
             }
-            this.setState({isLoading:false})
+        });
+
+        this.setState({
+            cpf: cpf,
+            senha: senha,
+            dados: dados,
+            materias: materias,
+            tableHead: ['', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
+            tableData: dados.MATERIAS_HORARIOS
         })
     }
 
-    render(){
-        const {showAlert} = this.state;
+
+    sendSubmit = () => {
+        this.props.navigation.navigate('MateriasPassadas', {
+            'cpf': this.state.cpf,
+            'senha': this.state.senha
+        })
+    }
+
+    renderItem = ({ item }) => {
         return (
-            <View style={styles.background}>
-                {this.state.isLoading ? 
-                <View>
-                <ActivityIndicator />
-                </View> :
-                null
-                }
-                
-                <Text style={styles.titulo}>Seja bem vindo(a) ao SIAC Mobile</Text>
-                <TextInput  style={styles.input} placeholder = 'CPF' onChangeText = {(cpf) =>this.setState({cpf : cpf})}></TextInput>
-                <TextInput secureTextEntry={true} style={styles.input} placeholder = 'Senha' onChangeText = {(senha) =>this.setState({senha : senha})}></TextInput>
-                <TouchableOpacity onPress={this.sendSubmit}>
-                    <View>
-                        <Text style={styles.btnEntrar}>ENTRAR</Text>
-                    </View>
-                </TouchableOpacity>
-                <Text>{this.state.success}</Text>
-
-
-                <AwesomeAlert
-                    show={showAlert}
-                    showProgress={false}
-                    title="Erro"
-                    message="Usuário ou Senha incorreto!"
-                    closeOnTouchOutside={true}
-                    closeOnHardwareBackPress={false}
-                    showCancelButton={true}
-                    cancelText="Fechar"
-                    cancelButtonColor="#DD6B55"
-                    onCancelPressed={() => {
-                        this.hideAlert();
-                    }}
-                />
-
+          <TouchableOpacity onPress={() => this.clickDetalhe(item)}>
+            <View style={styles.itemList}>
+                <Text style={styles.textList}>{item.CODIGOMATERIA} - {item.NOMEMATERIA} - {item.DIA}</Text>
             </View>
+          </TouchableOpacity>
         )
+    }
+
+    clickDetalhe = (item) => {
+
+        let searchMaterias = [];
+        this.state.dados.MATERIAS_COMPROVANTE.map((x) => {
+            if(x.CODIGOMATERIA == item.CODIGOMATERIA){
+                searchMaterias.push(x);
+            }
+        })
+
+        this.props.navigation.navigate('HomeDetalheScreen',{
+            'dados': searchMaterias
+        })
+    }
+
+    render() {
+        return (
+            <ScrollView>
+            <View style={styles.background}>
+                <View style={styles.boasvindas}>
+                    <Text style={styles.boasvindasTxt}>Olá, {this.state.dados.NOME}</Text>
+                </View>
+                <View>
+                    <View style={styles.infoPessoal}>
+                        <Text>
+                            <Text style={styles.subItemInfoPessoalTitulo}>
+                                Matrícula:
+                            </Text>
+                            <Text style={styles.subItemInfoPessoalDesc}>
+                                {' ' + this.state.dados.MATRICULA}
+                            </Text>
+                        </Text>
+                    </View>
+                    <View style={styles.infoPessoal}>
+                        <Text>
+                            <Text style={styles.subItemInfoPessoalTitulo}>
+                                Curso:
+                            </Text>
+                            <Text style={styles.subItemInfoPessoalDesc}>
+                                {' ' + this.state.dados.CURSO}
+                            </Text>
+                        </Text>
+                    </View>
+                    <View style={styles.infoPessoal}>
+                        <Text>
+                            <Text style={styles.subItemInfoPessoalTitulo}>
+                                Coeficiente de Rendimento:
+                            </Text>
+                            <Text style={styles.subItemInfoPessoalDesc}>
+                                {' ' + this.state.dados.CR}
+                            </Text>
+                        </Text>
+                    </View>
+                </View>
+                <Text style={styles.subTitle}>Grade do Semestre</Text>
+                <View style={styles.content}>
+                    <Table borderStyle={{borderColor: '#009688'}} style={styles.table}>
+                        <Row textStyle={styles.rowsTable} data={this.state.tableHead} />
+                        <Rows textStyle={styles.rowsTable} data={this.state.tableData} />
+                    </Table>
+                </View>
+
+                <View>
+                <Text style={styles.subTitle}>Matérias do Semestre</Text>
+                <FlatList
+                    data={this.state.materias}
+                    keyExtractor={item => item.ID.toString()}
+                    renderItem={this.renderItem}
+                />
+                </View>
+            </View>
+            </ScrollView>
+            )
     }
 }
