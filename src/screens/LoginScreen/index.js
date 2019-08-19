@@ -46,7 +46,8 @@ export default class LoginScreen extends Component{
         .then((response) => {
             if(response.data.ERRO_LOGIN){
                 this.setState({
-                    success: false
+                    success: false,
+                    msgerro: 'Erro no CPF e/ou Senha'
                 }) 
                 this.showAlert()
             }else{
