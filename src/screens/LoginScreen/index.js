@@ -44,7 +44,7 @@ export default class LoginScreen extends Component{
         }
         axios.post('https://siacapi.ayrtonsilas.com.br/api/get-comprovante',dados)
         .then((response) => {
-            if(response.ERRO_LOGIN){
+            if(response.data.ERRO_LOGIN){
                 this.setState({
                     success: false
                 }) 
