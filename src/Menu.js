@@ -1,14 +1,12 @@
 import React from 'react'
-import { createDrawerNavigator, createStackNavigator, DrawerActions } from 'react-navigation'
+import { createDrawerNavigator, createStackNavigator, StackActions,NavigationActions } from 'react-navigation'
 import { Icon, Header } from 'react-native-elements'
 import HomeScreen from './screens/HomeScreen'
 import HomeDetalheScreen from './screens/HomeDetalheScreen'
+import LoginScreen from './screens/LoginScreen'
 import {
-    StyleSheet,
     View,
     ScrollView,
-    Dimensions,
-    Image,
     Text
 } from 'react-native';
 
@@ -28,11 +26,24 @@ const defaultOptions = ({ navigation }) => {
     return {
         headerLeft: (
             <Icon
-                style={{ paddingLeft: 10 }}
+                iconStyle={{ paddingLeft:10 }}
                 onPress={() => navigation.openDrawer()}
                 name="menu"
                 size={30}
                 color="#FFF"
+                paddingLeft="30"
+            />
+        ),
+        headerRight: (
+            <Icon
+                iconStyle={{ paddingRight:10 }}
+                onPress={() => {
+                    alert('TODO')
+                }}
+                name="exit-to-app"
+                size={30}
+                color="#FFF"
+                paddingLeft="30"
             />
         ),
         headerStyle: {

@@ -43,23 +43,25 @@ export default styles = StyleSheet.create({
         textAlign:'center',
         color: "#808080",
         padding:2,
-        fontSize:12
+        fontSize:10
     },
     itemList: {
         alignItems: "center",
-        backgroundColor: "#808080",
+        backgroundColor: "#7f8c8d",
         flexGrow: 1,
         marginHorizontal: 10,
         marginVertical:4,
-        padding: 20
+        padding: 20,
+        fontSize:12
     },
     textList: {
-        color: "#FFF"
+        color: "#FFF",
+        fontSize:12
     },
     subTitle:{
         color: "#009688",
         fontWeight:'bold',
-        fontSize:14,
+        fontSize:16,
         margin:10
     }
 })
