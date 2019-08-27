@@ -17,8 +17,8 @@ export default class LoginScreen extends Component {
 
         this.state = {
             isLoading: false,
-            cpf: '06414191558',
-            senha: 'COCKNNOT',
+            cpf: '',
+            senha: '',
             success: false,
             showAlert: false,
             msgerro: '',
