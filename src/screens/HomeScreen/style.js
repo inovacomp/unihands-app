@@ -63,5 +63,11 @@ export default styles = StyleSheet.create({
         fontWeight:'bold',
         fontSize:16,
         margin:10
+    },
+    loading:{
+        flex:1,
+        flexDirection:'column',
+        backgroundColor: '#E5E5E5',
+        justifyContent:'center'
     }
 })

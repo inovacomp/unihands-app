@@ -4,6 +4,7 @@ import AwesomeAlert from 'react-native-awesome-alerts';
 import axios from 'axios';
 
 import styles from './style'
+import helper from '../../Helper'
 
 export default class LoginScreen extends Component {
 
@@ -16,13 +17,25 @@ export default class LoginScreen extends Component {
 
         this.state = {
             isLoading: false,
-            cpf: '',
-            senha: '',
+            cpf: '06414191558',
+            senha: 'COCKNNOT',
             success: false,
             showAlert: false,
-            msgerro: ''
+            msgerro: '',
+            internet: false,
+            tipoConexao: '',
         };
     }
+
+    async componentDidMount() {
+        let internet = await helper.CheckConnectivity();
+
+        this.setState({
+            internet: internet.conectado,
+            tipoConexao: internet.tipo
+        })
+    }
+
 
     showAlert = () => {
         this.setState({
@@ -50,8 +63,8 @@ export default class LoginScreen extends Component {
             cpf: this.state.cpf,
             senha: this.state.senha
         }
-        axios.post('https://siacapi.ayrtonsilas.com.br/api/get-comprovante', dados)
-            .then((response) => {
+        axios.post('https://siacapi.ayrtonsilas.com.br/api/get-dados', dados)
+            .then(async (response) => {
                 if (response.data.ERRO_LOGIN) {
                     this.setState({
                         success: false,
@@ -59,22 +72,34 @@ export default class LoginScreen extends Component {
                     })
                     this.showAlert()
                 } else {
+                    await helper.setData('cpf', dados.cpf);
+                    await helper.setData('senha', dados.senha);
+                    await helper.setData('nome', response.data.COMPROVANTE.NOME);
+                    await helper.setData('matricula', response.data.COMPROVANTE.MATRICULA);
+                    await helper.setData('curso', response.data.COMPROVANTE.CURSO);
+                    await helper.setData('cr', response.data.COMPROVANTE.CR);
+                    await helper.setData('materias_comprovante', response.data.COMPROVANTE.MATERIAS_COMPROVANTE);
+                    await helper.setData('materias_horarios', response.data.COMPROVANTE.MATERIAS_HORARIOS);
+
                     this.setState({
                         success: true
                     })
-                    this.props.navigation.navigate('HomeScreen', {
-                        cpf: this.state.cpf,
-                        senha: this.state.senha,
-                        dados: response.data
-                    })
+
+                    this.props.navigation.navigate('HomeScreen')
                 }
                 this.setState({ isLoading: false })
-            }).catch(error => {
-                this.setState({
-                    msgerro: error.message
-                })
+            }).catch(async (error) => {
+                // this.setState({
+                //     msgerro: error.message
+                // })
                 this.setState({ isLoading: false })
-                this.showAlert()
+                // this.showAlert()
+                let cpfVerify = await helper.getData('cpf');
+                let senhaVerify = await helper.getData('senha');
+                if (cpfVerify != '' && senhaVerify != '' && cpfVerify == dados.cpf && senhaVerify == dados.senha){
+                    this.props.navigation.navigate('HomeScreen');
+                }
+
             })
     }
 
@@ -99,6 +124,8 @@ export default class LoginScreen extends Component {
                     </View> :
                     null
                 }
+
+                <Text style={{ textAlign: "center", fontStyle: 'italic' }}>{this.state.internet ? "Você está Conectado a Internet (" + this.state.tipoConexao + ")" : "Você não está Conectado a Internet"}</Text>
 
                 <AwesomeAlert
                     show={showAlert}
