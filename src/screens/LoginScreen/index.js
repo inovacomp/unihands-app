@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Text, TextInput, TouchableOpacity, View, ActivityIndicator } from 'react-native'
 import AwesomeAlert from 'react-native-awesome-alerts';
 import axios from 'axios';
+import { Icon } from 'react-native-elements'
 
 import styles from './style'
 import helper from '../../Helper'
@@ -24,10 +25,15 @@ export default class LoginScreen extends Component {
             msgerro: '',
             internet: false,
             tipoConexao: '',
+            disabled: false
         };
     }
 
     async componentDidMount() {
+        this.verificarConexao()
+    }
+
+    async verificarConexao() {
         let internet = await helper.CheckConnectivity();
 
         this.setState({
@@ -36,6 +42,11 @@ export default class LoginScreen extends Component {
         })
     }
 
+    disabled = (x) => {
+        this.setState({
+            disabled: x
+        });
+    };
 
     showAlert = () => {
         this.setState({
@@ -57,6 +68,8 @@ export default class LoginScreen extends Component {
             this.showAlert();
             return;
         }
+        this.disabled(true);
+        this.verificarConexao();
 
         this.setState({ isLoading: true })
         let dados = {
@@ -72,6 +85,7 @@ export default class LoginScreen extends Component {
                     })
                     this.showAlert()
                 } else {
+                    await helper.setData('dataAtt', helper.getCurrentDate());
                     await helper.setData('cpf', dados.cpf);
                     await helper.setData('senha', dados.senha);
                     await helper.setData('nome', response.data.COMPROVANTE.NOME);
@@ -87,19 +101,22 @@ export default class LoginScreen extends Component {
 
                     this.props.navigation.navigate('HomeScreen')
                 }
-                this.setState({ isLoading: false })
+                this.setState({ isLoading: false });
+                this.disabled(true);
             }).catch(async (error) => {
-                // this.setState({
-                //     msgerro: error.message
-                // })
-                this.setState({ isLoading: false })
-                // this.showAlert()
                 let cpfVerify = await helper.getData('cpf');
                 let senhaVerify = await helper.getData('senha');
-                if (cpfVerify != '' && senhaVerify != '' && cpfVerify == dados.cpf && senhaVerify == dados.senha){
+                if (cpfVerify != '' && senhaVerify != '' && cpfVerify == dados.cpf && senhaVerify == dados.senha) {
+                    this.disabled(false);
                     this.props.navigation.navigate('HomeScreen');
+                } else {
+                    this.setState({
+                        msgerro: 'Você está sem Internet e suas credenciais estão incorretas!'
+                    })
                 }
-
+                this.setState({ isLoading: false })
+                this.showAlert()
+                this.disabled(false);
             })
     }
 
@@ -107,25 +124,35 @@ export default class LoginScreen extends Component {
         const { showAlert, msgerro } = this.state;
         return (
             <View style={styles.background}>
-                <Text style={styles.titulo}>Seja bem vindo(a) ao ESTUFBA</Text>
-                <Text style={styles.textInput}>CPF</Text>
-                <TextInput style={styles.input} placeholder='' onChangeText={(cpf) => this.setState({ cpf: cpf })}></TextInput>
-                <Text style={styles.textInput}>Senha</Text>
-                <TextInput secureTextEntry={true} style={styles.input} placeholder='' onChangeText={(senha) => this.setState({ senha: senha })}></TextInput>
-                <TouchableOpacity onPress={this.sendSubmit}>
-                    <View>
-                        <Text style={styles.btnEntrar}>ENTRAR</Text>
-                    </View>
-                </TouchableOpacity>
-
                 {this.state.isLoading ?
                     <View>
                         <ActivityIndicator />
                     </View> :
                     null
                 }
-
-                <Text style={{ textAlign: "center", fontStyle: 'italic' }}>{this.state.internet ? "Você está Conectado a Internet (" + this.state.tipoConexao + ")" : "Você não está Conectado a Internet"}</Text>
+                <Text style={styles.titulo}>Seja bem vindo(a) ao ESTUFBA</Text>
+                <Text style={styles.textInput}>CPF</Text>
+                <TextInput style={styles.input} placeholder='' onChangeText={(cpf) => this.setState({ cpf: cpf })}></TextInput>
+                <Text style={styles.textInput}>Senha</Text>
+                <TextInput secureTextEntry={true} style={styles.input} placeholder='' onChangeText={(senha) => this.setState({ senha: senha })}></TextInput>
+                <TouchableOpacity disabled={this.state.disabled} onPress={this.sendSubmit}>
+                    <View>
+                        <Text style={styles.btnEntrar}>Entrar</Text>
+                    </View>
+                </TouchableOpacity>
+  
+                <View style={{flexDirection:'row',alignSelf:"center",backgroundColor:'#FFF',padding:8,borderRadius:5}}>
+                    <Icon
+                        onPress={this.verificarConexao}
+                        name="refresh"
+                        size={30}
+                        color="#FFF"
+                        paddingLeft="30"
+                        underlayColor="#E5E5E5"
+                        iconStyle={{backgroundColor:'#009688',borderRadius:20,padding:3}}
+                    />
+                    <Text style={{ textAlign: "center", fontStyle: 'italic',marginTop:8 }}> {this.state.internet ? "Você está Conectado a Internet (" + this.state.tipoConexao + ")" : "Você não está Conectado a Internet"}</Text>
+                </View>
 
                 <AwesomeAlert
                     show={showAlert}

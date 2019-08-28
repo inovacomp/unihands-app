@@ -38,7 +38,7 @@ const defaultOptions = ({ navigation }) => {
             <Icon
                 iconStyle={{ paddingRight:10 }}
                 onPress={() => {
-                    alert('TODO')
+                    navigation.navigate('Welcome')
                 }}
                 name="exit-to-app"
                 size={30}

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, FlatList, TouchableOpacity,ActivityIndicator } from 'react-native'
+import { View, Text, FlatList, TouchableOpacity, ActivityIndicator } from 'react-native'
 import styles from './style'
 import { Table, Row, Rows } from 'react-native-table-component';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -13,14 +13,15 @@ export default class HomeScreen extends Component {
         super(props);
 
         this.state = {
-            nome :'',
-            matricula :'',
-            curso :'',
-            cr :'',
-            materias :'',
-            tableHead:'',
-            tableData:'',
-            carregou : false
+            nome: '',
+            matricula: '',
+            curso: '',
+            cr: '',
+            materias: '',
+            tableHead: '',
+            tableData: '',
+            carregou: false,
+            dataAtt : ''
         };
     }
 
@@ -31,6 +32,7 @@ export default class HomeScreen extends Component {
         let cr = await helper.getData('cr');
         let materiasComprovante = await helper.getData('materias_comprovante');
         let materiasHorarios = await helper.getData('materias_horarios');
+        let dataAtt = await helper.getData('dataAtt');
 
         let materiasKey = [];
         let materias = [];
@@ -42,12 +44,13 @@ export default class HomeScreen extends Component {
         });
 
         this.setState({
-            nome : nome,
-            matricula : matricula,
-            curso : curso,
-            cr : cr,
-            materias : materias,
-            'materiasComprovante' : materiasComprovante,
+            nome: nome,
+            matricula: matricula,
+            curso: curso,
+            cr: cr,
+            materias: materias,
+            dataAtt: dataAtt,
+            materiasComprovante: materiasComprovante,
             tableHead: ['', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
             tableData: materiasHorarios,
             carregou: true
@@ -93,9 +96,9 @@ export default class HomeScreen extends Component {
 
     render() {
 
-        if(!this.state.carregou){
-            return( <View style={styles.loading}><ActivityIndicator /></View>)
-        }else{
+        if (!this.state.carregou) {
+            return (<View style={styles.loading}><ActivityIndicator /></View>)
+        } else {
             return (
                 <ScrollView>
                     <View style={styles.background}>
@@ -103,6 +106,16 @@ export default class HomeScreen extends Component {
                             <Text style={styles.boasvindasTxt}>Olá, {this.state.nome}</Text>
                         </View>
                         <View>
+                            <View style={styles.infoPessoal}>
+                                <Text>
+                                    <Text style={styles.subItemInfoPessoalTitulo}>
+                                        Ultima Atualização:
+                                    </Text>
+                                    <Text style={styles.subItemInfoPessoalDesc}>
+                                        {' ' + this.state.dataAtt}
+                                    </Text>
+                                </Text>
+                            </View>
                             <View style={styles.infoPessoal}>
                                 <Text>
                                     <Text style={styles.subItemInfoPessoalTitulo}>
@@ -141,7 +154,7 @@ export default class HomeScreen extends Component {
                                 <Rows textStyle={styles.rowsTable} data={this.state.tableData} />
                             </Table>
                         </View>
-    
+
                         <View>
                             <Text style={styles.subTitle}>Matérias do Semestre</Text>
                             <FlatList
