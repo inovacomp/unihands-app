@@ -3,6 +3,7 @@ import { Text, View } from 'react-native'
 import { HeaderBackButton } from 'react-navigation';
 import { Divider } from 'react-native-elements'
 import styles from './style'
+import {colorGreen} from '../../Colors'
 
 export default class HomeDetalheScreen extends Component {
     static navigationOptions = ({ navigation }) => ({
@@ -77,7 +78,7 @@ export default class HomeDetalheScreen extends Component {
                             {' ' + x.DOCENTE}
                         </Text>
                     </Text>
-                    {index + 1 != this.state.subDadosMaterias.length ? <Divider style={{ height: 1, backgroundColor: '#009688', marginHorizontal: 10,marginVertical:5 }} /> : <Text></Text>}
+                    {index + 1 != this.state.subDadosMaterias.length ? <Divider style={{ height: 1, backgroundColor: colorGreen, marginHorizontal: 10,marginVertical:5 }} /> : <Text></Text>}
                 </View>
             );
 

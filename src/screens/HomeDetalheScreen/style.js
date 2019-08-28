@@ -1,37 +1,38 @@
 import {StyleSheet} from 'react-native'
+import * as colors from '../../Colors';
 
 export default style = StyleSheet.create({
     background : {
         flex:1,
-        backgroundColor: '#E5E5E5',
+        backgroundColor: colors.colorGray,
         flexDirection:'column',
         alignItems:'stretch'
     },
     InfoMateria:{
-        backgroundColor:'#FFF',
+        backgroundColor:colors.colorWhite,
         marginHorizontal:10,
         marginBottom:1,
         padding:8
     },
     subItemInfoMateriaTitulo:{
-        color: "#009688",
+        color: colors.colorGreen,
         fontWeight: 'bold',
     },
     subItemInfoMateriaDesc:{
         color: "#808080"
     },
     cabecalho:{
-        backgroundColor:'#1abc9c',
+        backgroundColor:colors.colorLightGreen,
         marginHorizontal:10,
         marginBottom:1,
         padding:8,
-        color:"#FFF"
+        color:colors.colorWhite
     },
     cabecalhoTitulo:{
-        color: "#FFF",
+        color: colors.colorWhite,
         fontWeight: 'bold',
     },
     cabecalhoDesc:{
-        color: "#FFF"
+        color: colors.colorWhite
     }
 })

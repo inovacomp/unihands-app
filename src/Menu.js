@@ -3,7 +3,7 @@ import { createDrawerNavigator, createStackNavigator, StackActions,NavigationAct
 import { Icon, Header } from 'react-native-elements'
 import HomeScreen from './screens/HomeScreen'
 import HomeDetalheScreen from './screens/HomeDetalheScreen'
-import LoginScreen from './screens/LoginScreen'
+import {colorGreen,colorWhite} from './Colors'
 import {
     View,
     ScrollView,
@@ -12,9 +12,9 @@ import {
 
 import { DrawerItems, SafeAreaView } from 'react-navigation';
 const CustomDrawerComponent = (props) => (
-    <SafeAreaView style={{ flex: 1,backgroundColor:'#009688' }}>
+    <SafeAreaView style={{ flex: 1,backgroundColor:colorGreen }}>
         <ScrollView>
-            <View style={{ height: 60, backgroundColor: '#009688', alignItems: 'center', justifyContent: 'center' }}>
+            <View style={{ height: 60, backgroundColor: colorGreen, alignItems: 'center', justifyContent: 'center' }}>
             <Text style={{fontWeight:'bold', color:"#FFF"}}>ESTUFBA</Text>
             </View>
             <DrawerItems activeBackgroundColor="#E5E5E5" activeTintColor="#009688" inactiveBackgroundColor="#FFF" inactiveTintColor="#009688" {...props} />
@@ -47,9 +47,9 @@ const defaultOptions = ({ navigation }) => {
             />
         ),
         headerStyle: {
-            backgroundColor: '#009688'
+            backgroundColor: colorGreen
         },
-        headerTintColor: '#FFF'
+        headerTintColor: colorWhite
     };
 }
 

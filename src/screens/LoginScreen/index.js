@@ -2,10 +2,9 @@ import React, { Component } from 'react'
 import { Text, TextInput, TouchableOpacity, View, ActivityIndicator } from 'react-native'
 import AwesomeAlert from 'react-native-awesome-alerts';
 import axios from 'axios';
-import { Icon } from 'react-native-elements'
-
 import styles from './style'
 import helper from '../../Helper'
+import * as colors from '../../Colors'
 
 export default class LoginScreen extends Component {
 
@@ -25,17 +24,25 @@ export default class LoginScreen extends Component {
             msgerro: '',
             internet: false,
             tipoConexao: '',
-            disabled: false
+            disabled: false,
+            'txtBtnEntrar': 'Entrar'
         };
     }
 
     async componentDidMount() {
-        this.verificarConexao()
+        this.verificarConexao();
+        cpf = await helper.getData('cpf');
+        senha = await helper.getData('senha');
+        if (cpf != '' && senha != '') {
+            this.setState({
+                cpf: cpf,
+                senha: senha
+            });
+        }
     }
 
     async verificarConexao() {
         let internet = await helper.CheckConnectivity();
-
         this.setState({
             internet: internet.conectado,
             tipoConexao: internet.tipo
@@ -61,6 +68,9 @@ export default class LoginScreen extends Component {
     };
 
     sendSubmit = () => {
+        this.setState({
+            txtBtnEntrar:'Aguarde...'
+        })
         if (this.state.cpf == '' || this.state.senha == '') {
             this.setState({
                 msgerro: 'Digite o CPF e a Senha!'
@@ -76,7 +86,7 @@ export default class LoginScreen extends Component {
             cpf: this.state.cpf,
             senha: this.state.senha
         }
-        axios.post('https://siacapi.ayrtonsilas.com.br/api/get-dados', dados)
+        axios.post('https://siacapi.ayrtonsilas.com.br/api/get-dados', dados,{timeout:10})
             .then(async (response) => {
                 if (response.data.ERRO_LOGIN) {
                     this.setState({
@@ -103,6 +113,9 @@ export default class LoginScreen extends Component {
                 }
                 this.setState({ isLoading: false });
                 this.disabled(true);
+                this.setState({
+                    txtBtnEntrar:'Entrar'
+                })
             }).catch(async (error) => {
                 let cpfVerify = await helper.getData('cpf');
                 let senhaVerify = await helper.getData('senha');
@@ -111,12 +124,15 @@ export default class LoginScreen extends Component {
                     this.props.navigation.navigate('HomeScreen');
                 } else {
                     this.setState({
-                        msgerro: 'Você está sem Internet e suas credenciais estão incorretas!'
+                        msgerro: 'Erro de conexão com a Internet'
                     })
                 }
                 this.setState({ isLoading: false })
                 this.showAlert()
                 this.disabled(false);
+                this.setState({
+                    txtBtnEntrar:'Entrar'
+                })
             })
     }
 
@@ -132,26 +148,18 @@ export default class LoginScreen extends Component {
                 }
                 <Text style={styles.titulo}>Seja bem vindo(a) ao ESTUFBA</Text>
                 <Text style={styles.textInput}>CPF</Text>
-                <TextInput style={styles.input} placeholder='' onChangeText={(cpf) => this.setState({ cpf: cpf })}></TextInput>
+                <TextInput value={this.state.cpf} style={styles.input} placeholder='' onChangeText={(cpf) => this.setState({ cpf: cpf })}></TextInput>
                 <Text style={styles.textInput}>Senha</Text>
-                <TextInput secureTextEntry={true} style={styles.input} placeholder='' onChangeText={(senha) => this.setState({ senha: senha })}></TextInput>
+                <TextInput value={this.state.senha} secureTextEntry={true} style={styles.input} placeholder='' onChangeText={(senha) => this.setState({ senha: senha })}></TextInput>
+
                 <TouchableOpacity disabled={this.state.disabled} onPress={this.sendSubmit}>
                     <View>
-                        <Text style={styles.btnEntrar}>Entrar</Text>
+                        <Text style={styles.btnEntrar}>{this.state.txtBtnEntrar}</Text>
                     </View>
                 </TouchableOpacity>
-  
-                <View style={{flexDirection:'row',alignSelf:"center",backgroundColor:'#FFF',padding:8,borderRadius:5}}>
-                    <Icon
-                        onPress={this.verificarConexao}
-                        name="refresh"
-                        size={30}
-                        color="#FFF"
-                        paddingLeft="30"
-                        underlayColor="#E5E5E5"
-                        iconStyle={{backgroundColor:'#009688',borderRadius:20,padding:3}}
-                    />
-                    <Text style={{ textAlign: "center", fontStyle: 'italic',marginTop:8 }}> {this.state.internet ? "Você está Conectado a Internet (" + this.state.tipoConexao + ")" : "Você não está Conectado a Internet"}</Text>
+
+                <View style={styles.refreshBg}>
+                    <Text style={{ textAlign: "center", fontStyle: 'italic', marginTop: 8 }}> {this.state.internet ? <Text style={{color:colors.colorGreen}}>Você está Conectado a Internet ({this.state.tipoConexao}) </Text> : <Text  style={{color:colors.colorRed}}>Você não está Conectado a Internet</Text>}</Text>
                 </View>
 
                 <AwesomeAlert

@@ -40,7 +40,7 @@ module.exports = {
         let m = today.getMinutes();
         let s = today.getSeconds();
 
-        today = mm + '/' + dd + '/' + yyyy + ' ' + h + ':' + m + ':' + s;
+        today = dd + '/' + mm + '/' + yyyy + ' ' + h + ':' + m + ':' + s;
 
         return today;
     }

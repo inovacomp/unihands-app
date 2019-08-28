@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
-import { View, Text, FlatList, TouchableOpacity, ActivityIndicator } from 'react-native'
+import { View, Text, FlatList, ActivityIndicator } from 'react-native'
 import styles from './style'
 import { Table, Row, Rows } from 'react-native-table-component';
 import { ScrollView } from 'react-native-gesture-handler';
 import { ListItem } from 'react-native-elements';
 import helper from '../../Helper';
+import {colorGreen,colorGray} from '../../Colors'
 
 
 export default class HomeScreen extends Component {
@@ -66,7 +67,9 @@ export default class HomeScreen extends Component {
                 titleStyle={styles.textList}
                 subtitleStyle={styles.textList}
                 rightIcon={{ name: "arrow-forward" }}
-                onPress={() => this.clickDetalhe(item)} />
+                onPress={() => this.clickDetalhe(item)}
+                underlayColor={colorGray}
+                 />
         )
     }
 
@@ -149,7 +152,7 @@ export default class HomeScreen extends Component {
                         </View>
                         <Text style={styles.subTitle}>Grade do Semestre</Text>
                         <View style={styles.content}>
-                            <Table borderStyle={{ borderColor: '#009688' }} style={styles.table}>
+                            <Table borderStyle={{ borderColor: colorGreen }} style={styles.table}>
                                 <Row textStyle={styles.rowsTable} data={this.state.tableHead} />
                                 <Rows textStyle={styles.rowsTable} data={this.state.tableData} />
                             </Table>

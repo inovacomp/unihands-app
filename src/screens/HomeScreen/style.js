@@ -1,28 +1,29 @@
 import {StyleSheet} from 'react-native'
+import * as colors from '../../Colors';
 
 export default styles = StyleSheet.create({
     background : {
         flex:1,
-        backgroundColor: '#E5E5E5',
+        backgroundColor: colors.colorGray,
         flexDirection:'column',
         alignItems:'stretch'
     },
     boasvindas:{
-        backgroundColor:'#FFF',
+        backgroundColor:colors.colorWhite,
         height:30,
         justifyContent:'center',
         marginBottom: 3
     },
     boasvindasTxt:{
         textAlign: 'center',
-        color:"#009688"
+        color:colors.colorGreen
     },
     content:{
         flex:1,
         flexDirection: 'column'
     },  
     infoPessoal:{
-        backgroundColor:'#FFF',
+        backgroundColor:colors.colorWhite,
         marginHorizontal:10,
         marginBottom:1,
         padding:8
@@ -32,11 +33,11 @@ export default styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     subItemInfoPessoalDesc:{
-        color: "#808080"
+        color: colors.colorGreen
     },
     table:{
         marginHorizontal:10,
-        backgroundColor:'#FFF',
+        backgroundColor:colors.colorWhite,
         marginTop:5
     },
     rowsTable:{
@@ -47,7 +48,7 @@ export default styles = StyleSheet.create({
     },
     itemList: {
         alignItems: "center",
-        backgroundColor: "#7f8c8d",
+        backgroundColor: colors.colorGrayDark,
         flexGrow: 1,
         marginHorizontal: 10,
         marginVertical:4,
@@ -59,7 +60,7 @@ export default styles = StyleSheet.create({
         fontSize:12
     },
     subTitle:{
-        color: "#009688",
+        color: colors.colorGreen,
         fontWeight:'bold',
         fontSize:16,
         margin:10
@@ -67,7 +68,7 @@ export default styles = StyleSheet.create({
     loading:{
         flex:1,
         flexDirection:'column',
-        backgroundColor: '#E5E5E5',
+        backgroundColor: colors.colorGray,
         justifyContent:'center'
     }
 })
