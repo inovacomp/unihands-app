@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
-import { Text, TextInput, TouchableOpacity, View, ActivityIndicator } from 'react-native'
+import { ImageBackground, Text, TouchableOpacity, View, ActivityIndicator } from 'react-native'
 import AwesomeAlert from 'react-native-awesome-alerts';
 import axios from 'axios';
 import styles from './style'
 import helper from '../../Helper'
-import * as colors from '../../Colors'
+import assets from '../../../assets/assets'
+import { Input, Icon } from 'react-native-elements';
+import * as colors from '../../Colors';
 
 export default class LoginScreen extends Component {
 
@@ -68,9 +70,6 @@ export default class LoginScreen extends Component {
     };
 
     sendSubmit = () => {
-        this.setState({
-            txtBtnEntrar:'Aguarde...'
-        })
         if (this.state.cpf == '' || this.state.senha == '') {
             this.setState({
                 msgerro: 'Digite o CPF e a Senha!'
@@ -78,6 +77,9 @@ export default class LoginScreen extends Component {
             this.showAlert();
             return;
         }
+        this.setState({
+            txtBtnEntrar: 'Aguarde...'
+        })
         this.disabled(true);
         this.verificarConexao();
 
@@ -86,7 +88,7 @@ export default class LoginScreen extends Component {
             cpf: this.state.cpf,
             senha: this.state.senha
         }
-        axios.post('https://siacapi.ayrtonsilas.com.br/api/get-dados', dados,{timeout:10})
+        axios.post('https://siacapi.ayrtonsilas.com.br/api/get-dados', dados, { timeout: 10000 })
             .then(async (response) => {
                 if (response.data.ERRO_LOGIN) {
                     this.setState({
@@ -114,7 +116,7 @@ export default class LoginScreen extends Component {
                 this.setState({ isLoading: false });
                 this.disabled(true);
                 this.setState({
-                    txtBtnEntrar:'Entrar'
+                    txtBtnEntrar: 'Entrar'
                 })
             }).catch(async (error) => {
                 let cpfVerify = await helper.getData('cpf');
@@ -131,7 +133,7 @@ export default class LoginScreen extends Component {
                 this.showAlert()
                 this.disabled(false);
                 this.setState({
-                    txtBtnEntrar:'Entrar'
+                    txtBtnEntrar: 'Entrar'
                 })
             })
     }
@@ -139,45 +141,64 @@ export default class LoginScreen extends Component {
     render() {
         const { showAlert, msgerro } = this.state;
         return (
-            <View style={styles.background}>
-                {this.state.isLoading ?
-                    <View>
-                        <ActivityIndicator />
-                    </View> :
-                    null
-                }
-                <Text style={styles.titulo}>Seja bem vindo(a) ao ESTUFBA</Text>
-                <Text style={styles.textInput}>CPF</Text>
-                <TextInput value={this.state.cpf} style={styles.input} placeholder='' onChangeText={(cpf) => this.setState({ cpf: cpf })}></TextInput>
-                <Text style={styles.textInput}>Senha</Text>
-                <TextInput value={this.state.senha} secureTextEntry={true} style={styles.input} placeholder='' onChangeText={(senha) => this.setState({ senha: senha })}></TextInput>
+            <ImageBackground source={assets.bg}
+                imageStyle={{ resizeMode: 'stretch' }}
+                style={styles.background}
+            >
+                <View style={styles.backgroundOpacity}>
+                    {this.state.isLoading ?
+                        <View>
+                            <ActivityIndicator />
+                        </View> :
+                        null
+                    }
+                    <Text style={styles.titulo}>Seja bem vindo(a) ao SIAC Mobile</Text>
 
-                <TouchableOpacity disabled={this.state.disabled} onPress={this.sendSubmit}>
-                    <View>
-                        <Text style={styles.btnEntrar}>{this.state.txtBtnEntrar}</Text>
-                    </View>
-                </TouchableOpacity>
+                    <Input leftIcon={
+                        <Icon
+                            name='perm-identity'
+                            size={24}
+                            color="#2c3e50"
+                        />
+                    } placeholder='CPF'
+                        value={this.state.cpf}
+                        inputStyle={styles.input}
+                        onChangeText={(cpf) => this.setState({ cpf: cpf })} />
 
-                <View style={styles.refreshBg}>
-                    <Text style={{ textAlign: "center", fontStyle: 'italic', marginTop: 8 }}> {this.state.internet ? <Text style={{color:colors.colorGreen}}>Você está Conectado a Internet ({this.state.tipoConexao}) </Text> : <Text  style={{color:colors.colorRed}}>Você não está Conectado a Internet</Text>}</Text>
+                    <Input leftIcon={
+                        <Icon
+                            name='lock'
+                            size={24}
+                            color="#2c3e50"
+                        />
+                    } placeholder="Senha"
+                        value={this.state.senha}
+                        secureTextEntry={true}
+                        inputStyle={styles.input}
+                        onChangeText={(senha) => this.setState({ senha: senha })} />
+
+                    <TouchableOpacity disabled={this.state.disabled} onPress={this.sendSubmit}>
+                        <View>
+                            <Text style={styles.btnEntrar}>{this.state.txtBtnEntrar}</Text>
+                        </View>
+                    </TouchableOpacity>
+
+                    <AwesomeAlert
+                        show={showAlert}
+                        showProgress={false}
+                        title="Erro"
+                        message={msgerro}
+                        closeOnTouchOutside={true}
+                        closeOnHardwareBackPress={false}
+                        showCancelButton={true}
+                        cancelText="Fechar"
+                        cancelButtonColor="#DD6B55"
+                        onCancelPressed={() => {
+                            this.hideAlert();
+                        }}
+                    />
                 </View>
-
-                <AwesomeAlert
-                    show={showAlert}
-                    showProgress={false}
-                    title="Erro"
-                    message={msgerro}
-                    closeOnTouchOutside={true}
-                    closeOnHardwareBackPress={false}
-                    showCancelButton={true}
-                    cancelText="Fechar"
-                    cancelButtonColor="#DD6B55"
-                    onCancelPressed={() => {
-                        this.hideAlert();
-                    }}
-                />
-
-            </View>
+            </ImageBackground>
         )
     }
 }

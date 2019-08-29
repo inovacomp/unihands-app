@@ -33,7 +33,7 @@ export default styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     subItemInfoPessoalDesc:{
-        color: colors.colorGreen
+        color: colors.colorGrayDark
     },
     table:{
         marginHorizontal:10,

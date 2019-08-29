@@ -9,27 +9,26 @@ export default styles = StyleSheet.create({
         alignItems: 'stretch',
         justifyContent: 'center'
     },
+    backgroundOpacity: {
+        flex: 1,
+        backgroundColor: 'rgba(44, 62, 80,0.6)',
+        flexDirection: 'column',
+        alignItems: 'stretch',
+        justifyContent: 'center'
+    },
     titulo: {
         fontSize: 22,
         textAlign: 'center',
-        color: colors.colorGreen,
+        color: colors.colorWhite,
         fontWeight: 'bold',
         marginBottom: 30
     },
-    textInput: {
-        color: colors.colorGreen,
-        marginVertical: 0,
-        marginHorizontal: 5,
-        padding: 8,
-        fontWeight:'bold'
-    },
     input: {
-        backgroundColor: colors.colorWhite,
         marginVertical: -5,
         marginHorizontal: 10,
-        padding: 8,
+        padding: 0,
         borderRadius: 6,
-        color:colors.colorGreen
+        color:colors.colorWhite
     },
     btnEntrar: {
         justifyContent: 'flex-end',
@@ -53,6 +52,5 @@ export default styles = StyleSheet.create({
         borderRadius: 50,
         fontWeight:'bold',
         elevation: 3,
-    },
-    refreshBg: { flexDirection: 'row', alignSelf: "center", backgroundColor: colors.colorWhite, padding: 4, borderRadius: 5 }
+    }
 })

@@ -15,7 +15,7 @@ const CustomDrawerComponent = (props) => (
     <SafeAreaView style={{ flex: 1,backgroundColor:colorGreen }}>
         <ScrollView>
             <View style={{ height: 60, backgroundColor: colorGreen, alignItems: 'center', justifyContent: 'center' }}>
-            <Text style={{fontWeight:'bold', color:"#FFF"}}>ESTUFBA</Text>
+            <Text style={{fontWeight:'bold', color:"#FFF"}}>SIAC Mobile</Text>
             </View>
             <DrawerItems activeBackgroundColor="#E5E5E5" activeTintColor="#009688" inactiveBackgroundColor="#FFF" inactiveTintColor="#009688" {...props} />
         </ScrollView>
@@ -62,27 +62,25 @@ const ComprovanteStackNavigator = createStackNavigator(
         defaultNavigationOptions: defaultOptions
     }
 );
-const Pagina2 = createStackNavigator(
-    {
-        HomeScreen
-    },
-    {
-        defaultNavigationOptions: defaultOptions
-    }
-);
 
 const MenuContainer = createDrawerNavigator({
-    Comprovante: {
+    Início: {
         screen: ComprovanteStackNavigator
     },
-    Pagina2: {
-        screen: Pagina2
+    "TODO": {
+        screen: ComprovanteStackNavigator
+    },
+    "TODO1": {
+        screen: ComprovanteStackNavigator
+    },
+    "TODO2": {
+        screen: ComprovanteStackNavigator
     }
 }, {
         drawerType:'slide',
         drawerWidth: 200,
         drawerPosition: 'left',
-        initialRouteName: 'Comprovante',
+        initialRouteName: 'Início',
         contentComponent: CustomDrawerComponent
     });
 
