@@ -8,7 +8,7 @@ import {colorGreen} from '../../Colors'
 export default class HomeDetalheScreen extends Component {
     static navigationOptions = ({ navigation }) => ({
         title: 'Detalhe',
-        headerLeft: <HeaderBackButton tintColor="#FFF" onPress={() => navigation.goBack(null)} />,
+        headerLeft: <HeaderBackButton tintColor="white" onPress={() => navigation.goBack(null)} />,
     });
     constructor(props) {
         super(props);

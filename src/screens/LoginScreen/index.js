@@ -97,6 +97,9 @@ export default class LoginScreen extends Component {
                     })
                     this.showAlert()
                 } else {
+                    subTotalMateriasCursadas = response.data.COMPONENTES_CURSADOS.MATERIAS_CURSADAS.pop();
+                    subTotalChComplementar = response.data.COMPONENTES_CURSADOS.CARGA_HORARIA_COMPLEMENTAR.pop();
+                    
                     await helper.setData('dataAtt', helper.getCurrentDate());
                     await helper.setData('cpf', dados.cpf);
                     await helper.setData('senha', dados.senha);
@@ -106,6 +109,8 @@ export default class LoginScreen extends Component {
                     await helper.setData('cr', response.data.COMPROVANTE.CR);
                     await helper.setData('materias_comprovante', response.data.COMPROVANTE.MATERIAS_COMPROVANTE);
                     await helper.setData('materias_horarios', response.data.COMPROVANTE.MATERIAS_HORARIOS);
+                    await helper.setData('materias_cursadas', response.data.COMPONENTES_CURSADOS.MATERIAS_CURSADAS);
+                    await helper.setData('ch_complementar', response.data.COMPONENTES_CURSADOS.CARGA_HORARIA_COMPLEMENTAR);
 
                     this.setState({
                         success: true
@@ -121,6 +126,7 @@ export default class LoginScreen extends Component {
             }).catch(async (error) => {
                 let cpfVerify = await helper.getData('cpf');
                 let senhaVerify = await helper.getData('senha');
+                alert(error);
                 if (cpfVerify != '' && senhaVerify != '' && cpfVerify == dados.cpf && senhaVerify == dados.senha) {
                     this.disabled(false);
                     this.props.navigation.navigate('HomeScreen');

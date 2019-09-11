@@ -3,6 +3,7 @@ import { createDrawerNavigator, createStackNavigator, StackActions,NavigationAct
 import { Icon, Header } from 'react-native-elements'
 import HomeScreen from './screens/HomeScreen'
 import HomeDetalheScreen from './screens/HomeDetalheScreen'
+import MateriasCursadasScreen from './screens/MateriasCursadasScreen'
 import {colorGreen,colorWhite} from './Colors'
 import {
     View,
@@ -62,13 +63,21 @@ const ComprovanteStackNavigator = createStackNavigator(
         defaultNavigationOptions: defaultOptions
     }
 );
+const MateriasCursadasStackNavigator = createStackNavigator(
+    {
+        MateriasCursadasScreen
+    },
+    {
+        defaultNavigationOptions: defaultOptions
+    }
+);
 
 const MenuContainer = createDrawerNavigator({
     Início: {
         screen: ComprovanteStackNavigator
     },
-    "TODO": {
-        screen: ComprovanteStackNavigator
+    "Matérias Cursadas": {
+        screen: MateriasCursadasStackNavigator
     },
     "TODO1": {
         screen: ComprovanteStackNavigator
