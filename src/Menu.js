@@ -105,7 +105,7 @@ const MenuContainer = createDrawerNavigator({
         drawerType:'slide',
         drawerWidth: 200,
         drawerPosition: 'left',
-        initialRouteName: 'Matérias Cursadas',
+        initialRouteName: 'Início',
         contentComponent: CustomDrawerComponent
     });
 
