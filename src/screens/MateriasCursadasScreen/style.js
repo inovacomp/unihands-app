@@ -41,7 +41,9 @@ export default styles = StyleSheet.create({
         color: colors.colorGreen,
         fontWeight:'bold',
         fontSize:16,
-        margin:10
+        marginLeft:10,
+        marginTop:10,
+        marginBottom:10
     },
     loading:{
         flex:1,

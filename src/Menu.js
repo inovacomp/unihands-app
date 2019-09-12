@@ -71,6 +71,22 @@ const MateriasCursadasStackNavigator = createStackNavigator(
         defaultNavigationOptions: defaultOptions
     }
 );
+const ChComplementarStackNavigator = createStackNavigator(
+    {
+        HomeScreen
+    },
+    {
+        defaultNavigationOptions: defaultOptions
+    }
+);
+const AtividadesCalendarioStackNavigator = createStackNavigator(
+    {
+        HomeScreen
+    },
+    {
+        defaultNavigationOptions: defaultOptions
+    }
+);
 
 const MenuContainer = createDrawerNavigator({
     Início: {
@@ -79,17 +95,17 @@ const MenuContainer = createDrawerNavigator({
     "Matérias Cursadas": {
         screen: MateriasCursadasStackNavigator
     },
-    "TODO1": {
-        screen: ComprovanteStackNavigator
+    "CH Complementar": {
+        screen: ChComplementarStackNavigator
     },
-    "TODO2": {
-        screen: ComprovanteStackNavigator
+    "Atividades Calendário": {
+        screen: AtividadesCalendarioStackNavigator
     }
 }, {
         drawerType:'slide',
         drawerWidth: 200,
         drawerPosition: 'left',
-        initialRouteName: 'Início',
+        initialRouteName: 'Matérias Cursadas',
         contentComponent: CustomDrawerComponent
     });
 

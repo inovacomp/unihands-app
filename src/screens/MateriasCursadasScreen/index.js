@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { View, Text, FlatList, ActivityIndicator } from 'react-native'
-import { ScrollView } from 'react-native-gesture-handler';
-import { Card } from 'react-native-elements';
+import { ScrollView, TextInput } from 'react-native-gesture-handler';
+import { Card, Button, Input } from 'react-native-elements';
 import groupBy from 'json-groupby';
 import styles from './style';
 import helper from '../../Helper';
-import { colorGreen, colorGray } from '../../Colors'
+import { Tooltip, Icon } from 'react-native-elements';
 
 
 export default class MateriasCursadasScreen extends Component {
@@ -13,7 +13,8 @@ export default class MateriasCursadasScreen extends Component {
         super(props);
         this.state = {
             carregou: false,
-            materias: []
+            materias: [],
+            'search': ''
         }
     }
     async componentDidMount() {
@@ -39,20 +40,31 @@ export default class MateriasCursadasScreen extends Component {
                 <ScrollView>
                     <View style={styles.background}>
                         <View>
-                            <Text style={styles.subTitle}>Matérias Cursadas</Text>
+                            <Text style={styles.subTitle}>Matérias Cursadas </Text>
+                            <View>
+                                <Input
+                                    placeholder='Buscar...'
+                                    inputStyle={{ color: 'colorGrayDark', fontSize: 14 }}
+                                    onChangeText={(txt) => this.setState({ search: txt.toUpperCase() })}
+                                />
+                            </View>
                         </View>
                         {
                             Object.keys(this.state.materias).map((semestre, i) => {
+                                
+                                filtrados = this.state.materias[semestre].filter(x => x.NOME.includes(this.state.search) || x.CODIGO.includes(this.state.search) || x.NOTA.includes(this.state.search));
+
                                 return (
                                     <Card key={i} containerStyle={styles.card} title={semestre}>
                                         {
-                                            this.state.materias[semestre].map((item, j) => {
+                                            
+                                            filtrados.map((item, j) => {
                                                 estiloNota = parseFloat(item.NOTA) < 5
                                                     || item.RESULTADO == 'Reprovado Frequencia'
                                                     || item.RESULTADO == 'Reprovado por Nota'
                                                     ? styles.backgroundPerdeu : styles.backgroundPassou;
 
-                                                estiloNota = item.CH == '--' && item.RESULTADO == undefined ? styles.backgroundSemResultado : estiloNota;
+                                                estiloNota = item.RESULTADO == 'Trancamento' || (item.CH == '--' && item.RESULTADO == undefined) ? styles.backgroundSemResultado : estiloNota;
 
                                                 return (
                                                     <View style={[styles.content, estiloNota]} key={j}>

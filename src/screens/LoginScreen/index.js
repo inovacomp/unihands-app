@@ -88,7 +88,11 @@ export default class LoginScreen extends Component {
             cpf: this.state.cpf,
             senha: this.state.senha
         }
-        axios.post('https://siacapi.ayrtonsilas.com.br/api/get-dados', dados, { timeout: 10000 })
+        
+        const httpClient = axios.create();
+        httpClient.defaults.timeout = 20000;
+
+        httpClient.post('https://siacapi.ayrtonsilas.com.br/api/get-dados', dados)
             .then(async (response) => {
                 if (response.data.ERRO_LOGIN) {
                     this.setState({
@@ -126,7 +130,7 @@ export default class LoginScreen extends Component {
             }).catch(async (error) => {
                 let cpfVerify = await helper.getData('cpf');
                 let senhaVerify = await helper.getData('senha');
-                alert(error);
+                
                 if (cpfVerify != '' && senhaVerify != '' && cpfVerify == dados.cpf && senhaVerify == dados.senha) {
                     this.disabled(false);
                     this.props.navigation.navigate('HomeScreen');
