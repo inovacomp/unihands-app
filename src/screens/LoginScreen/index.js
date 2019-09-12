@@ -6,7 +6,6 @@ import styles from './style'
 import helper from '../../Helper'
 import assets from '../../../assets/assets'
 import { Input, Icon } from 'react-native-elements';
-import * as colors from '../../Colors';
 
 export default class LoginScreen extends Component {
 
