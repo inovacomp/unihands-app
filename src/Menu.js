@@ -1,10 +1,12 @@
 import React from 'react'
-import { createDrawerNavigator, createStackNavigator, StackActions,NavigationActions } from 'react-navigation'
+import { createDrawerNavigator, createStackNavigator, StackActions, NavigationActions } from 'react-navigation'
 import { Icon, Header } from 'react-native-elements'
 import HomeScreen from './screens/HomeScreen'
 import HomeDetalheScreen from './screens/HomeDetalheScreen'
 import MateriasCursadasScreen from './screens/MateriasCursadasScreen'
-import {colorGreen,colorWhite} from './Colors'
+import ChComplementarScreen from './screens/ChComplementarScreen'
+import GradeCursoScreen from './screens/GradeCursoScreen'
+import { colorGreen, colorWhite } from './Colors'
 import {
     View,
     ScrollView,
@@ -13,10 +15,10 @@ import {
 
 import { DrawerItems, SafeAreaView } from 'react-navigation';
 const CustomDrawerComponent = (props) => (
-    <SafeAreaView style={{ flex: 1,backgroundColor:colorGreen }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: colorGreen }}>
         <ScrollView>
             <View style={{ height: 60, backgroundColor: colorGreen, alignItems: 'center', justifyContent: 'center' }}>
-            <Text style={{fontWeight:'bold', color:"#FFF"}}>SIAC Mobile</Text>
+                <Text style={{ fontWeight: 'bold', color: "#FFF" }}>SIAC Mobile</Text>
             </View>
             <DrawerItems activeBackgroundColor="#E5E5E5" activeTintColor="#009688" inactiveBackgroundColor="#FFF" inactiveTintColor="#009688" {...props} />
         </ScrollView>
@@ -27,7 +29,7 @@ const defaultOptions = ({ navigation }) => {
     return {
         headerLeft: (
             <Icon
-                iconStyle={{ paddingLeft:10 }}
+                iconStyle={{ paddingLeft: 10 }}
                 onPress={() => navigation.openDrawer()}
                 name="menu"
                 size={30}
@@ -37,7 +39,7 @@ const defaultOptions = ({ navigation }) => {
         ),
         headerRight: (
             <Icon
-                iconStyle={{ paddingRight:10 }}
+                iconStyle={{ paddingRight: 10 }}
                 onPress={() => {
                     navigation.navigate('Welcome')
                 }}
@@ -73,20 +75,22 @@ const MateriasCursadasStackNavigator = createStackNavigator(
 );
 const ChComplementarStackNavigator = createStackNavigator(
     {
-        HomeScreen
+        ChComplementarScreen
     },
     {
         defaultNavigationOptions: defaultOptions
     }
 );
-const AtividadesCalendarioStackNavigator = createStackNavigator(
+
+const GradeCursoStackNavigator = createStackNavigator(
     {
-        HomeScreen
+        GradeCursoScreen
     },
     {
         defaultNavigationOptions: defaultOptions
     }
-);
+)
+
 
 const MenuContainer = createDrawerNavigator({
     Início: {
@@ -98,11 +102,11 @@ const MenuContainer = createDrawerNavigator({
     "CH Complementar": {
         screen: ChComplementarStackNavigator
     },
-    "Atividades Calendário": {
-        screen: AtividadesCalendarioStackNavigator
+    "Grade do Curso": {
+        screen: GradeCursoStackNavigator
     }
 }, {
-        drawerType:'slide',
+        drawerType: 'slide',
         drawerWidth: 200,
         drawerPosition: 'left',
         initialRouteName: 'Início',

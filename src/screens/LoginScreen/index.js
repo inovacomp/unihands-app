@@ -114,6 +114,7 @@ export default class LoginScreen extends Component {
                     await helper.setData('materias_horarios', response.data.COMPROVANTE.MATERIAS_HORARIOS);
                     await helper.setData('materias_cursadas', response.data.COMPONENTES_CURSADOS.MATERIAS_CURSADAS);
                     await helper.setData('ch_complementar', response.data.COMPONENTES_CURSADOS.CARGA_HORARIA_COMPLEMENTAR);
+                    await helper.setData('materiasObrigatorias', response.data.MATERIAS_OBRIGATORIAS.MATERIAS_OBRIGATORIAS);
 
                     this.setState({
                         success: true

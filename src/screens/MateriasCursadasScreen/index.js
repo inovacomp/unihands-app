@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import { View, Text, FlatList, ActivityIndicator } from 'react-native'
-import { ScrollView, TextInput } from 'react-native-gesture-handler';
-import { Card, Button, Input } from 'react-native-elements';
+import { View, Text, ActivityIndicator } from 'react-native'
+import { ScrollView } from 'react-native-gesture-handler';
+import { Card, Input } from 'react-native-elements';
 import groupBy from 'json-groupby';
 import styles from './style';
 import helper from '../../Helper';
-import { Tooltip, Icon } from 'react-native-elements';
 
 
 export default class MateriasCursadasScreen extends Component {

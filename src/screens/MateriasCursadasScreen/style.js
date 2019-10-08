@@ -18,10 +18,9 @@ export default styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     content:{
-        borderBottomWidth:1,
-        borderBottomColor:colors.colorBlack,
         padding:5,
-        borderRadius:5
+        borderRadius:5,
+        marginBottom:2
     },
     contentMateria:{
         marginVertical:2
