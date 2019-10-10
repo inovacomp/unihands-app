@@ -8,14 +8,6 @@ export default styles = StyleSheet.create({
         flexDirection:'column',
         alignItems:'stretch'
     },
-    subTitle:{
-        color: colors.colorGreen,
-        fontWeight:'bold',
-        fontSize:16,
-        marginLeft:10,
-        marginTop:10,
-        marginBottom:10
-    },
     loading:{
         flex:1,
         flexDirection:'column',
@@ -24,7 +16,7 @@ export default styles = StyleSheet.create({
     },
     itemList: {
         alignItems: "center",
-        backgroundColor: colors.colorGrayDark,
+        backgroundColor: colors.colorLightGreen,
         flexGrow: 1,
         marginHorizontal: 10,
         marginVertical:4,
@@ -32,7 +24,8 @@ export default styles = StyleSheet.create({
         fontSize:12
     },
     textList: {
-        color: "#FFF",
-        fontSize:12
+        color: colors.colorWhite,
+        fontSize:12,
+        fontWeight:'bold'
     },
 })

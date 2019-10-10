@@ -8,6 +8,10 @@ import helper from '../../Helper';
 
 
 export default class MateriasCursadasScreen extends Component {
+    static navigationOptions = ({ navigation }) => ({
+        title: 'Matérias Cursadas'
+    });
+
     constructor(props) {
         super(props);
         this.state = {
@@ -39,7 +43,6 @@ export default class MateriasCursadasScreen extends Component {
                 <ScrollView>
                     <View style={styles.background}>
                         <View>
-                            <Text style={styles.subTitle}>Matérias Cursadas </Text>
                             <View>
                                 <Input
                                     placeholder='Buscar...'

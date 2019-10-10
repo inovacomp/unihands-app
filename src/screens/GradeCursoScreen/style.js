@@ -6,13 +6,6 @@ export default styles = StyleSheet.create({
         flex: 1,
         backgroundColor: colors.colorGray
     },
-    subTitle: {
-        color: colors.colorGreen,
-        fontWeight: 'bold',
-        fontSize: 16,
-        marginTop: 10,
-        marginBottom: 10
-    },
     semestre: {
         paddingVertical: 8,
         textAlign: 'center',
@@ -24,8 +17,9 @@ export default styles = StyleSheet.create({
         padding: 3,
         flexBasis: 0,
         margin: 3,
-        borderRadius: 5
-
+        borderRadius: 5,
+        alignContent:'center'
+        
     },
     shadow: {
         shadowColor: "#000",
@@ -43,14 +37,23 @@ export default styles = StyleSheet.create({
     naoAprovado: {
         backgroundColor: colors.colorWhite,
     },
-    itemText: {
+    preReq: {
+        backgroundColor: colors.colorOrange,
+    },
+    itemTitleText: {
         fontSize: 12,
         textAlign: 'center',
-        
+        flex:1,
+        fontWeight:'bold'
     },
-    itemEmpty: {
-        backgroundColor: "transparent"
+    itemDescText: {
+        fontSize: 10,
+        textAlign: 'center',
+        flex:1
     },
+    // itemEmpty: {
+    //     backgroundColor: "#000"
+    // },
     loading:{
         flex:1,
         flexDirection:'column',

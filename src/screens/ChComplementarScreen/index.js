@@ -7,6 +7,10 @@ import {colorGray} from '../../Colors';
 import {ListItem} from 'react-native-elements';
 
 export default class ChComplementarScreen extends Component {
+    static navigationOptions = ({ navigation }) => ({
+        title: 'CH Complementar'
+    });
+
     constructor(props) {
         super(props);
 
@@ -44,9 +48,6 @@ export default class ChComplementarScreen extends Component {
             return (
                 <ScrollView style={{flex:1,backgroundColor: colorGray}}>
                     <View style={styles.background}>
-                        <View>
-                            <Text style={styles.subTitle}>Carga Horária Complementar</Text>
-                        </View>
                         <FlatList
                             data={this.state.cargaHoraria}
                             keyExtractor={item => item.ID.toString()}

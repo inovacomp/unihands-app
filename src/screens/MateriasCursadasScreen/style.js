@@ -36,14 +36,6 @@ export default styles = StyleSheet.create({
         color: "#FFF",
         fontSize:12
     },
-    subTitle:{
-        color: colors.colorGreen,
-        fontWeight:'bold',
-        fontSize:16,
-        marginLeft:10,
-        marginTop:10,
-        marginBottom:10
-    },
     loading:{
         flex:1,
         flexDirection:'column',

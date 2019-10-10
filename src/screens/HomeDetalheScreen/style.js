@@ -6,7 +6,6 @@ export default style = StyleSheet.create({
         flex:1,
         backgroundColor: colors.colorGray,
         flexDirection:'column',
-        alignItems:'stretch'
     },
     InfoMateria:{
         backgroundColor:colors.colorWhite,

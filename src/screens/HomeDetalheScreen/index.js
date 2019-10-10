@@ -1,9 +1,10 @@
-import React, { Component } from 'react'
-import { Text, View } from 'react-native'
+import React, { Component } from 'react';
+import { Text, View } from 'react-native';
 import { HeaderBackButton } from 'react-navigation';
-import { Divider } from 'react-native-elements'
-import styles from './style'
-import {colorGreen} from '../../Colors'
+import { Divider } from 'react-native-elements';
+import styles from './style';
+import {colorGreen} from '../../Colors';
+import { ScrollView } from 'react-native-gesture-handler';
 
 export default class HomeDetalheScreen extends Component {
     static navigationOptions = ({ navigation }) => ({
@@ -88,7 +89,8 @@ export default class HomeDetalheScreen extends Component {
     render() {
 
         return (
-            <View style={styles.background}>
+            <ScrollView style={styles.background}>
+            <View>
                 <View style={{marginBottom:5}}>
                     <Text style={styles.cabecalho}>
                         <Text style={styles.cabecalhoTitulo}>
@@ -118,6 +120,7 @@ export default class HomeDetalheScreen extends Component {
                 {this.getContent()}
 
             </View>
+            </ScrollView>
         )
     }
 }

@@ -8,3 +8,4 @@ export const colorRed = '#e74c3c';
 export const colorPassou = '#c8f7c5';
 export const colorPerdeu = '#f1a9a0';
 export const colorSemResultado = '#c5eff7';
+export const colorOrange = '#e67e22';
