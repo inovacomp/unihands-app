@@ -17,6 +17,7 @@ export default class GradeCursoScreen extends Component {
             'materiasObrigatorias': [],
             'materiasCursadas': [],
             'materiaSelecionada': [],
+            'materiaSelecionadaPreReq': [],
             carregou: false
         };
 
@@ -71,13 +72,16 @@ export default class GradeCursoScreen extends Component {
             aprovado = materiaPassada.RESULTADO == 'Trancamento' || (materiaPassada.CH == '--' && materiaPassada.RESULTADO == undefined) ? styles.naoAprovado : aprovado;
 
         }
-        if (this.state.materiaSelecionada.includes(item.CODIGO)) {
+        if (this.state.materiaSelecionadaPreReq.includes(item.CODIGO)) {
             aprovado = styles.preReq;
+        }
+        if (this.state.materiaSelecionada == item.CODIGO) {
+            aprovado = styles.matSelecionada;
         }
 
         return (
             <View key={item.CODIGO} style={[styles.item, styles.shadow, aprovado]}>
-                <TouchableWithoutFeedback onPress={x => this.selectedItem(item.PRE_REQ)}>
+                <TouchableWithoutFeedback onPress={x => this.selectedItem(item.CODIGO,item.PRE_REQ)}>
                     <View style={{flex:1}}>
                         <Text style={styles.itemTitleText}>{item.CODIGO}</Text>
                         <Text style={styles.itemDescText}>{item.NOME}</Text>
@@ -87,12 +91,13 @@ export default class GradeCursoScreen extends Component {
         );
     }
 
-    selectedItem = (pre_req) => {
+    selectedItem = (codigo,pre_req) => {
         if(pre_req == '--'){
             pre_req = [];
         }
         this.setState({
-            materiaSelecionada: pre_req
+            materiaSelecionadaPreReq: pre_req,
+            materiaSelecionada:codigo
         })
     }
 

@@ -40,6 +40,9 @@ export default styles = StyleSheet.create({
     preReq: {
         backgroundColor: colors.colorOrange,
     },
+    matSelecionada: {
+        backgroundColor: colors.colorSemResultado,
+    },
     itemTitleText: {
         fontSize: 12,
         textAlign: 'center',
