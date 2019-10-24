@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { ScrollView } from 'react-native-gesture-handler';
 import styles from './style';
-import { View, Text, FlatList, ActivityIndicator, TouchableWithoutFeedback } from 'react-native';
+import { View, Text, FlatList, ActivityIndicator, Dimensions, TouchableWithoutFeedback } from 'react-native';
 import helper from '../../Helper';
 import groupBy from 'json-groupby';
+import { Button } from 'react-native-elements';
+import FooterGradeCurso from './footer/index';
 
 
 export default class GradeCursoScreen extends Component {
@@ -18,7 +20,9 @@ export default class GradeCursoScreen extends Component {
             'materiasCursadas': [],
             'materiaSelecionada': [],
             'materiaSelecionadaPreReq': [],
-            carregou: false
+            carregou: false,
+            verEmenta: false,
+            perInicial: ''
         };
 
     }
@@ -56,7 +60,7 @@ export default class GradeCursoScreen extends Component {
         if (item.empty) {
             return <View style={[styles.item, styles.itemEmpty]} />;
         }
- 
+
         let materiaPassada = this.state.materiasCursadas.filter(x =>
             x.CODIGO == item.CODIGO
         );
@@ -81,8 +85,8 @@ export default class GradeCursoScreen extends Component {
 
         return (
             <View key={item.CODIGO} style={[styles.item, styles.shadow, aprovado]}>
-                <TouchableWithoutFeedback onPress={x => this.selectedItem(item.CODIGO,item.PRE_REQ)}>
-                    <View style={{flex:1}}>
+                <TouchableWithoutFeedback onPress={x => this.selectedItem(item.CODIGO, item.PRE_REQ, item.PER_INICIAL)}>
+                    <View style={{ flex: 1 }}>
                         <Text style={styles.itemTitleText}>{item.CODIGO}</Text>
                         <Text style={styles.itemDescText}>{item.NOME}</Text>
                     </View>
@@ -91,13 +95,15 @@ export default class GradeCursoScreen extends Component {
         );
     }
 
-    selectedItem = (codigo,pre_req) => {
-        if(pre_req == '--'){
+    selectedItem = (codigo, pre_req, per_inicial) => {
+        if (pre_req == '--') {
             pre_req = [];
         }
         this.setState({
             materiaSelecionadaPreReq: pre_req,
-            materiaSelecionada:codigo
+            materiaSelecionada: codigo,
+            perInicial: per_inicial,
+            verEmenta: true
         })
     }
 
@@ -106,28 +112,32 @@ export default class GradeCursoScreen extends Component {
             return (<View style={styles.loading}><ActivityIndicator /></View>)
         } else {
             return (
-                <ScrollView style={styles.background}>
-                    <View style={{ padding: 10 }}>
+                <View style={{ flex: 1 }}>
+                    <ScrollView style={styles.background}>
+                        <View style={{ padding: 10 }}>
 
-                        {
-                            Object.keys(this.state.materiasObrigatorias).map((semestre, i) => {
+                            {
+                                Object.keys(this.state.materiasObrigatorias).map((semestre, i) => {
 
-                                return <View key={i+1000}>
-                                    <Text style={styles.semestre}>
-                                        {semestre}
-                                    </Text>
-                                    <FlatList
-                                        data={this.state.materiasObrigatorias[semestre]}
-                                        keyExtractor={item => item.ID}
-                                        numColumns={3}
-                                        extraData={this.state}
-                                        renderItem={this.renderItem}
-                                    />
-                                </View>
-                            })
-                        }
-                    </View>
-                </ScrollView>
+                                    return <View key={i + 1000}>
+                                        <Text style={styles.semestre}>
+                                            {semestre}
+                                        </Text>
+                                        <FlatList
+                                            data={this.state.materiasObrigatorias[semestre]}
+                                            keyExtractor={item => item.ID}
+                                            numColumns={3}
+                                            extraData={this.state}
+                                            renderItem={this.renderItem}
+                                        />
+                                    </View>
+                                })
+                            }
+                        </View>
+                    </ScrollView>
+                    {this.state.verEmenta ? <FooterGradeCurso setMateria={this.state.materiaSelecionada} setPeriodoInicial={this.state.perInicial} /> : <View></View>}
+
+                </View>
             )
         }
     }
