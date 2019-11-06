@@ -9,7 +9,8 @@ export default styles = StyleSheet.create({
     semestre: {
         paddingVertical: 8,
         textAlign: 'center',
-        fontWeight:'bold'
+        fontWeight: 'bold',
+        fontSize: 10
     },
     item: {
         alignItems: "center",
@@ -18,8 +19,8 @@ export default styles = StyleSheet.create({
         flexBasis: 0,
         margin: 3,
         borderRadius: 5,
-        alignContent:'center'
-        
+        alignContent: 'center'
+
     },
     shadow: {
         shadowColor: "#000",
@@ -41,26 +42,53 @@ export default styles = StyleSheet.create({
         backgroundColor: colors.colorOrange,
     },
     matSelecionada: {
-        backgroundColor: colors.colorSemResultado,
+        backgroundColor: colors.colorGreenEsmerald,
+        color: colors.colorWhite
+    },
+    posReq: {
+        backgroundColor: colors.colorBlueMarine,
+        color: colors.colorWhite
     },
     itemTitleText: {
-        fontSize: 12,
+        fontSize: 8,
         textAlign: 'center',
-        flex:1,
-        fontWeight:'bold'
+        flex: 1,
+        fontWeight: 'bold'
     },
     itemDescText: {
-        fontSize: 10,
+        fontSize: 8,
         textAlign: 'center',
-        flex:1
+        flex: 1
     },
     // itemEmpty: {
     //     backgroundColor: "#000"
     // },
-    loading:{
-        flex:1,
-        flexDirection:'column',
+    loading: {
+        flex: 1,
+        flexDirection: 'column',
         backgroundColor: colors.colorGray,
-        justifyContent:'center'
+        justifyContent: 'center'
+    },
+    contentLegenda: {
+        padding: 10,
+        flexWrap: 'wrap',
+        flexDirection: 'row',
+        alignContent: 'center',
+        borderColor: '#000',
+        borderStyle: 'solid',
+        borderBottomWidth: 1
+    },
+    legendaItem: {
+        margin: 2,
+        width: 20,
+        height: 20,
+        borderColor: '#000',
+        borderStyle: 'solid',
+        borderWidth: 1,
+        borderRadius: 50
+    },
+    txtLegenda: {
+        fontSize: 10,
+        marginTop: 5
     }
 });

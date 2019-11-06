@@ -91,7 +91,7 @@ export default class LoginScreen extends Component {
         }
 
         const httpClient = axios.create();
-        httpClient.defaults.timeout = 20000;
+        httpClient.defaults.timeout = 15000;
 
         httpClient.post('https://siacapi.ayrtonsilas.com.br/api/get-dados', dados)
             .then(async (response) => {
@@ -117,7 +117,7 @@ export default class LoginScreen extends Component {
                     await helper.setData('materias_cursadas', response.data.COMPONENTES_CURSADOS.MATERIAS_CURSADAS);
                     await helper.setData('ch_complementar', response.data.COMPONENTES_CURSADOS.CARGA_HORARIA_COMPLEMENTAR);
                     await helper.setData('materiasObrigatorias', response.data.MATERIAS_OBRIGATORIAS.MATERIAS_OBRIGATORIAS);
-                    await helper.setData('materiasObrigatorias', response.data.COMPROVANTE_PDF);
+                    await helper.setData('COMPROVANTE_PDF', response.data.COMPROVANTE_PDF);
                     
                     this.setState({
                         success: true

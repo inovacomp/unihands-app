@@ -1,62 +1,63 @@
-import {StyleSheet} from 'react-native'
+import { StyleSheet } from 'react-native'
 import * as colors from '../../Colors';
 
 export default styles = StyleSheet.create({
-    background : {
-        flex:1,
+    background: {
+        flex: 1,
         backgroundColor: colors.colorGray,
-        flexDirection:'column',
-        alignItems:'stretch'
+        flexDirection: 'column',
+        alignItems: 'stretch'
     },
-    card:{
-        margin:10
+    card: {
+        margin: 10
     },
-    subItemTitulo:{
+    subItemTitulo: {
         color: colors.colorBlack,
-        marginVertical:4,
-        textAlign:"center",
+        marginVertical: 4,
+        textAlign: "center",
         fontWeight: 'bold',
     },
-    content:{
-        padding:5,
-        borderRadius:5,
-        marginBottom:2
+    content: {
+        padding: 5,
+        borderRadius: 5,
+        marginBottom: 2
     },
-    contentMateria:{
-        marginVertical:2
+    contentMateria: {
+        marginVertical: 2
     },
-    subItemInfoMateriaTitulo:{
+    subItemInfoMateriaTitulo: {
         color: colors.colorBlack,
         fontWeight: 'bold',
     },
-    subItemInfoMateriaDesc:{
+    subItemInfoMateriaDesc: {
         color: colors.colorBlack
     },
     textCard: {
         color: "#FFF",
-        fontSize:12
+        fontSize: 12
     },
-    loading:{
-        flex:1,
-        flexDirection:'column',
+    loading: {
+        flex: 1,
+        flexDirection: 'column',
         backgroundColor: colors.colorGray,
-        justifyContent:'center'
+        justifyContent: 'center'
     },
-    backgroundPassou:{
-        backgroundColor:colors.colorPassou
+    backgroundPassou: {
+        backgroundColor: colors.colorPassou
     },
-    backgroundPerdeu:{
-        backgroundColor:colors.colorPerdeu
+    backgroundPerdeu: {
+        backgroundColor: colors.colorPerdeu
     },
-    backgroundSemResultado:{
-        backgroundColor:colors.colorSemResultado
+    backgroundSemResultado: {
+        backgroundColor: colors.colorSemResultado
     },
-    legendaItem:{
-        margin:2,
-        width:20,
-        height:20,
-        borderColor:'#000',
-        borderStyle:'solid',
-        borderWidth:1
+    legendaItem: {
+        margin: 2,
+        width: 20,
+        height: 20,
+        borderColor: '#000',
+        borderStyle: 'solid',
+        borderWidth: 1,
+        borderRadius: 50
     }
 })

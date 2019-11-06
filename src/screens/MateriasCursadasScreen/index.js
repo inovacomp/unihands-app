@@ -24,6 +24,8 @@ export default class MateriasCursadasScreen extends Component {
         let materias = await helper.getData('materias_cursadas');
 
         materias.map((val, i) => {
+            //preenche o periodo das matérias que estão sem
+            //normalmente em cada semestre somente a primeira linha da tabela do siac vem com periodo
             if (val.PERIODO == '') {
                 val.PERIODO = materias[i - 1].PERIODO;
             }
@@ -46,23 +48,23 @@ export default class MateriasCursadasScreen extends Component {
                             <View style={{ flexDirection: 'row' }}>
                                 <View style={[styles.legendaItem, styles.backgroundPassou]}>
                                 </View>
-                                <Text>Matérias Passadas</Text>
+                                <Text style={{ marginTop: 5 }}>Matérias Passadas</Text>
                             </View>
                             <View style={{ flexDirection: 'row' }}>
                                 <View style={[styles.legendaItem, styles.backgroundPerdeu]}>
                                 </View>
-                                <Text>Matérias Perdidas</Text>
+                                <Text style={{ marginTop: 5 }}>Matérias Perdidas</Text>
                             </View>
                             <View style={{ flexDirection: 'row' }}>
                                 <View style={[styles.legendaItem, styles.backgroundSemResultado]}>
                                 </View>
-                                <Text>Matérias Trancadas ou em Curso</Text>
+                                <Text style={{ marginTop: 5 }}>Matérias Trancadas ou em Curso</Text>
                             </View>
                         </View>
                         <View>
                             <Input
-                                placeholder='Buscar...'
-                                inputStyle={{ color: 'colorGrayDark', fontSize: 14 }}
+                                placeholder='Buscar por(Código, Nome, Nota)'
+                                inputStyle={{ color: 'colorGrayDark',backgroundColor:'#FFF', fontSize: 14 }}
                                 onChangeText={(txt) => this.setState({ search: txt.toUpperCase() })}
                             />
                         </View>

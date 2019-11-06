@@ -28,6 +28,8 @@ export default class ChComplementarScreen extends Component {
             carregou: true
         });
     }
+
+    //renderiza cada item da lista de carga horarias
     renderItem = ({ item }) => {
         return (
             <ListItem

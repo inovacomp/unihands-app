@@ -58,6 +58,7 @@ export default class HomeScreen extends Component {
         })
     }
 
+    //renderiza cada item da lista de matérias do semestre
     renderItem = ({ item }) => {
         return (
             <ListItem
@@ -73,6 +74,7 @@ export default class HomeScreen extends Component {
         )
     }
 
+    //função para ser executada ao clicar em um item da lista de materias do semestre
     clickDetalhe = (item) => {
 
         let subDadosMaterias = [];

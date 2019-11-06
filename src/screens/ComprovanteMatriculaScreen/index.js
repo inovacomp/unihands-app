@@ -1,58 +1,47 @@
-import React from 'react';
-import { StyleSheet, Dimensions, View } from 'react-native';
- 
-import Pdf from 'react-native-pdf';
- 
-export default class PDFExample extends React.Component {
+import React, { Component } from 'react';
+import { StyleSheet, Dimensions, View, ActivityIndicator } from 'react-native';
+import helper from '../../Helper';
+import * as colors from '../../Colors';
 
+import Pdf from 'react-native-pdf';
+
+export default class ComprovanteMatriculaScreen extends Component {
+    static navigationOptions = ({ navigation }) => ({
+        title: 'Comprovante de Matrícula'
+    });
     constructor(props) {
         super(props);
 
         this.state = {
-            isLoading: false,
+            carregou: false,
             pdf: '',
         };
     }
     async componentDidMount() {
-        this.verificarConexao();
         pdf = await helper.getData('COMPROVANTE_PDF');
-        if (cpf != '' && senha != '') {
-            this.setState({
-                pdf: pdf
-            });
-        }
+        this.setState({
+            pdf: pdf,
+            carregou: true
+        });
     }
 
     render() {
-        // const source = {uri:'http://samples.leanpub.com/thereactnativebook-sample.pdf',cache:true};
-        //const source = require('./test.pdf');  // ios only
-        //const source = {uri:'bundle-assets://test.pdf'};
- 
-        //const source = {uri:'file:///sdcard/test.pdf'};
-        const source = {uri:"data:application/pdf;base64,"+this.state.pdf};
- 
-        return (
-            <View style={styles.container}>
-                <Pdf
-                    source={source}
-                    onLoadComplete={(numberOfPages,filePath)=>{
-                        console.log(`number of pages: ${numberOfPages}`);
-                    }}
-                    onPageChanged={(page,numberOfPages)=>{
-                        console.log(`current page: ${page}`);
-                    }}
-                    onError={(error)=>{
-                        console.log(error);
-                    }}
-                    onPressLink={(uri)=>{
-                        console.log(`Link presse: ${uri}`)
-                    }}
-                    style={styles.pdf}/>
-            </View>
-        )
-  }
+        if (!this.state.carregou) {
+            return (<View style={styles.loading}><ActivityIndicator /></View>)
+        } else {
+            //monta o corpo do relatório com base64
+            const source = { uri: "data:application/pdf;base64," + this.state.pdf };
+            return (
+                <View style={styles.container}>
+                    <Pdf
+                        source={source}
+                        style={styles.pdf} />
+                </View>
+            )
+        }
+    }
 }
- 
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -61,8 +50,14 @@ const styles = StyleSheet.create({
         marginTop: 25,
     },
     pdf: {
+        flex: 1,
+        width: Dimensions.get('window').width,
+        height: Dimensions.get('window').height,
+    },
+    loading:{
         flex:1,
-        width:Dimensions.get('window').width,
-        height:Dimensions.get('window').height,
-    }
+        flexDirection:'column',
+        backgroundColor: colors.colorGray,
+        justifyContent:'center'
+    },
 });

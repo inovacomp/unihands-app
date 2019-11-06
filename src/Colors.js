@@ -9,3 +9,5 @@ export const colorPassou = '#c8f7c5';
 export const colorPerdeu = '#f1a9a0';
 export const colorSemResultado = '#c5eff7';
 export const colorOrange = '#e67e22';
+export const colorGreenEsmerald = '#2ecc71';
+export const colorBlueMarine = '#2980b9';

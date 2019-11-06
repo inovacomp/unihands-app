@@ -47,6 +47,7 @@ export default class HomeDetalheScreen extends Component {
         })
     }
 
+    //gera a lista de informações de cada dia de aula da matéria
     getContent() {
         return this.state.subDadosMaterias.map((x, index) => {
             return (

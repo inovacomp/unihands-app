@@ -20,6 +20,7 @@ export default class GradeCursoScreen extends Component {
             'materiasCursadas': [],
             'materiaSelecionada': [],
             'materiaSelecionadaPreReq': [],
+            'materiaSelecionadaPosReq': [],
             carregou: false,
             verEmenta: false,
             perInicial: ''
@@ -37,54 +38,46 @@ export default class GradeCursoScreen extends Component {
         })
     }
 
-    //CRIA CAMPOS VAZIOS PARA PREENCHER O GRID
-    //https://medium.com/@oieduardorabelo/react-native-criando-grids-com-flatlist-b4eb64e7dcd5
-    // createRows = (data, columns) => {
-    //     const rows = Math.floor(data.length / columns); // [A]
-    //     let lastRowElements = data.length - rows * columns; // [B]
-    //     let dataz = [];
-    //     dataz.concat(data);
-    //     while (lastRowElements !== columns) { // [C]
-    //         dataz.push({ // [D]
-    //             ID: helper.getRandomInt(100000,200000),
-    //             CODIGO: `vazio-${lastRowElements}`,
-    //             empty: true
-    //         });
-    //         lastRowElements += 1; // [E]
-    //     }
-    //     console.log(dataz);
-    //     return dataz; // [F]
-    // }
-
+    //renderiza cada semestre ou seja a lista de materias de cada semestre
     renderItem = ({ item }) => {
         if (item.empty) {
             return <View style={[styles.item, styles.itemEmpty]} />;
         }
 
-        let materiaPassada = this.state.materiasCursadas.filter(x =>
+        //pega a matéria já cursada comparando com a grade
+        let materia = this.state.materiasCursadas.filter(x =>
             x.CODIGO == item.CODIGO
         );
-        materiaPassada = materiaPassada[materiaPassada.length - 1];
 
-        let aprovado = styles.naoAprovado;
+        //pega o ultimo resultado da matéria que no caso seria o passado
+        let materiaPassada = materia[materia.length - 1];
+
+        let corMateria = styles.naoAprovado;
         if (materiaPassada != undefined) {
-            aprovado = parseFloat(materiaPassada.NOTA) < 5
+            corMateria = parseFloat(materiaPassada.NOTA) < 5
                 || materiaPassada.RESULTADO == 'Reprovado Frequencia'
                 || materiaPassada.RESULTADO == 'Reprovado por Nota'
                 ? styles.naoAprovado : styles.aprovado;
 
-            aprovado = materiaPassada.RESULTADO == 'Trancamento' || (materiaPassada.CH == '--' && materiaPassada.RESULTADO == undefined) ? styles.naoAprovado : aprovado;
+            corMateria = materiaPassada.RESULTADO == 'Trancamento' || (materiaPassada.CH == '--' && materiaPassada.RESULTADO == undefined) ? styles.naoAprovado : corMateria;
 
         }
+
+        //verifica se a materia da lista é pre-requisito da materia que foi clicada
         if (this.state.materiaSelecionadaPreReq.includes(item.CODIGO)) {
-            aprovado = styles.preReq;
+            corMateria = styles.preReq;
         }
-        if (this.state.materiaSelecionada == item.CODIGO) {
-            aprovado = styles.matSelecionada;
+        //verifica se a materia da lista abre alguma materia
+        else if (this.state.materiaSelecionadaPosReq.includes(item.CODIGO)) {
+            corMateria = styles.posReq;
+        }
+        //verifica se a materia da lista é a materia clicada
+        else if (this.state.materiaSelecionada == item.CODIGO) {
+            corMateria = styles.matSelecionada;
         }
 
         return (
-            <View key={item.CODIGO} style={[styles.item, styles.shadow, aprovado]}>
+            <View key={item.CODIGO} style={[styles.item, styles.shadow, corMateria]}>
                 <TouchableWithoutFeedback onPress={x => this.selectedItem(item.CODIGO, item.PRE_REQ, item.PER_INICIAL)}>
                     <View style={{ flex: 1 }}>
                         <Text style={styles.itemTitleText}>{item.CODIGO}</Text>
@@ -95,12 +88,26 @@ export default class GradeCursoScreen extends Component {
         );
     }
 
+    //materia selecionada com o click
     selectedItem = (codigo, pre_req, per_inicial) => {
         if (pre_req == '--') {
             pre_req = [];
         }
+
+        let pos = [];
+
+        //monta a lista de materias que a materia selecionada abre
+        Object.keys(this.state.materiasObrigatorias).map((semestre, i) => {
+            this.state.materiasObrigatorias[semestre].map(x => {
+                if (x.PRE_REQ.includes(codigo)) {
+                    pos.push(x.CODIGO);
+                }
+            });
+        })
+
         this.setState({
             materiaSelecionadaPreReq: pre_req,
+            materiaSelecionadaPosReq: pos,
             materiaSelecionada: codigo,
             perInicial: per_inicial,
             verEmenta: true
@@ -112,8 +119,38 @@ export default class GradeCursoScreen extends Component {
             return (<View style={styles.loading}><ActivityIndicator /></View>)
         } else {
             return (
-                <View style={{ flex: 1 }}>
-                    <ScrollView style={styles.background}>
+                <View style={styles.background}>
+                    <View>
+                        <View style={styles.contentLegenda}>
+
+                            <View style={{ flexDirection: 'row' }}>
+                                <View style={[styles.legendaItem, styles.naoAprovado]}>
+                                </View>
+                                <Text style={styles.txtLegenda}>Matéria Não Passada</Text>
+                            </View>
+                            <View style={{ flexDirection: 'row' }}>
+                                <View style={[styles.legendaItem, styles.aprovado]}>
+                                </View>
+                                <Text style={styles.txtLegenda}>Matéria Passada</Text>
+                            </View>
+                            <View style={{ flexDirection: 'row' }}>
+                                <View style={[styles.legendaItem, styles.matSelecionada]}>
+                                </View>
+                                <Text style={styles.txtLegenda}>Matéria Selecionada</Text>
+                            </View>
+                            <View style={{ flexDirection: 'row' }}>
+                                <View style={[styles.legendaItem, styles.preReq]}>
+                                </View>
+                                <Text style={styles.txtLegenda}>Pré-requisito</Text>
+                            </View>
+                            <View style={{ flexDirection: 'row' }}>
+                                <View style={[styles.legendaItem, styles.posReq]}>
+                                </View>
+                                <Text style={styles.txtLegenda}>Matéria Liberada</Text>
+                            </View>
+                        </View>
+                    </View>
+                    <ScrollView>
                         <View style={{ padding: 10 }}>
 
                             {

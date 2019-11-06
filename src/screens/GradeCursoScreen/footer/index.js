@@ -25,11 +25,7 @@ export default class FooterGradeCurso extends Component {
         };
     }
 
-    async componentDidMount() {
-
-
-    }
-
+    //quando clicar no botão ver detalhes carregar os detalhes da matérias
     onClickMateria = async () => {
         length = this.state.length;
         textBtn = this.state.textBtn;
@@ -44,7 +40,7 @@ export default class FooterGradeCurso extends Component {
             length = Dimensions.get('window').height;
             textBtn = 'Fechar Detalhes';
             const httpClient = axios.create();
-            httpClient.defaults.timeout = 20000;
+            httpClient.defaults.timeout = 15000;
 
             disciplina = this.props.setMateria;
             periodoInicial = this.props.setPeriodoInicial;
