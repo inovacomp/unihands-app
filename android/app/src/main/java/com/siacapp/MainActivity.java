@@ -4,6 +4,11 @@ import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
 import com.facebook.react.ReactRootView;
 import com.swmansion.gesturehandler.react.RNGestureHandlerEnabledRootView;
+import com.facebook.react.ReactPackage;
+import com.facebook.react.shell.MainReactPackage;
+import com.kevinejohn.RNMixpanel.*;  // <--- import
+import java.util.List;
+import java.util.Arrays;
 
 public class MainActivity extends ReactActivity {
 
@@ -24,5 +29,15 @@ public class MainActivity extends ReactActivity {
            return new RNGestureHandlerEnabledRootView(MainActivity.this);
           }
         };
+    }
+    /**
+   * A list of packages used by the app. If the app uses additional views
+   * or modules besides the default ones, add more packages here.
+   */
+    // @Override
+    protected List<ReactPackage> getPackages() {
+      return Arrays.<ReactPackage>asList(
+        new RNMixpanel(), // <------ add here
+        new MainReactPackage());
     }
 }

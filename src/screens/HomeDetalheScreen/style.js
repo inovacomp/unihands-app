@@ -33,5 +33,11 @@ export default style = StyleSheet.create({
     },
     cabecalhoDesc:{
         color: colors.colorWhite
+    },
+    loading:{
+        flex:1,
+        flexDirection:'column',
+        backgroundColor: colors.colorGray,
+        justifyContent:'center'
     }
 })

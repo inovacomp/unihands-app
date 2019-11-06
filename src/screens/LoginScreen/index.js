@@ -7,6 +7,7 @@ import helper from '../../Helper'
 import assets from '../../../assets/assets'
 import { Input, Icon } from 'react-native-elements';
 
+
 export default class LoginScreen extends Component {
 
     static navigationOptions = {
@@ -69,6 +70,7 @@ export default class LoginScreen extends Component {
     };
 
     sendSubmit = () => {
+
         if (this.state.cpf == '' || this.state.senha == '') {
             this.setState({
                 msgerro: 'Digite o CPF e a Senha!'
@@ -87,7 +89,7 @@ export default class LoginScreen extends Component {
             cpf: this.state.cpf,
             senha: this.state.senha
         }
-        
+
         const httpClient = axios.create();
         httpClient.defaults.timeout = 20000;
 
@@ -102,7 +104,7 @@ export default class LoginScreen extends Component {
                 } else {
                     subTotalMateriasCursadas = response.data.COMPONENTES_CURSADOS.MATERIAS_CURSADAS.pop();
                     subTotalChComplementar = response.data.COMPONENTES_CURSADOS.CARGA_HORARIA_COMPLEMENTAR.pop();
-                    
+
                     await helper.setData('dataAtt', helper.getCurrentDate());
                     await helper.setData('cpf', dados.cpf);
                     await helper.setData('senha', dados.senha);
@@ -115,7 +117,8 @@ export default class LoginScreen extends Component {
                     await helper.setData('materias_cursadas', response.data.COMPONENTES_CURSADOS.MATERIAS_CURSADAS);
                     await helper.setData('ch_complementar', response.data.COMPONENTES_CURSADOS.CARGA_HORARIA_COMPLEMENTAR);
                     await helper.setData('materiasObrigatorias', response.data.MATERIAS_OBRIGATORIAS.MATERIAS_OBRIGATORIAS);
-
+                    await helper.setData('materiasObrigatorias', response.data.COMPROVANTE_PDF);
+                    
                     this.setState({
                         success: true
                     })
@@ -130,7 +133,7 @@ export default class LoginScreen extends Component {
             }).catch(async (error) => {
                 let cpfVerify = await helper.getData('cpf');
                 let senhaVerify = await helper.getData('senha');
-                
+
                 if (cpfVerify != '' && senhaVerify != '' && cpfVerify == dados.cpf && senhaVerify == dados.senha) {
                     this.disabled(false);
                     this.props.navigation.navigate('HomeScreen');
@@ -208,7 +211,7 @@ export default class LoginScreen extends Component {
                         }}
                     />
                 </View>
-            </ImageBackground>
+            </ImageBackground >
         )
     }
 }

@@ -35,6 +35,8 @@ target 'siacapp' do
 
   pod 'react-native-pdf', :path => '../node_modules/react-native-pdf'
 
+  pod 'react-native-mixpanel', :path => '../node_modules/react-native-mixpanel'
+
   target 'siacappTests' do
     inherit! :search_paths
     # Pods for testing

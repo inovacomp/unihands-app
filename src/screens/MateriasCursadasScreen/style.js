@@ -51,5 +51,12 @@ export default styles = StyleSheet.create({
     backgroundSemResultado:{
         backgroundColor:colors.colorSemResultado
     },
-    
+    legendaItem:{
+        margin:2,
+        width:20,
+        height:20,
+        borderColor:'#000',
+        borderStyle:'solid',
+        borderWidth:1
+    }
 })

@@ -40,79 +40,98 @@ export default class MateriasCursadasScreen extends Component {
             return (<View style={styles.loading}><ActivityIndicator /></View>)
         } else {
             return (
-                <ScrollView>
-                    <View style={styles.background}>
-                        <View>
-                            <View>
-                                <Input
-                                    placeholder='Buscar...'
-                                    inputStyle={{ color: 'colorGrayDark', fontSize: 14 }}
-                                    onChangeText={(txt) => this.setState({ search: txt.toUpperCase() })}
-                                />
+                <View style={styles.background}>
+                    <View>
+                        <View style={{ margin: 10 }}>
+                            <View style={{ flexDirection: 'row' }}>
+                                <View style={[styles.legendaItem, styles.backgroundPassou]}>
+                                </View>
+                                <Text>Matérias Passadas</Text>
+                            </View>
+                            <View style={{ flexDirection: 'row' }}>
+                                <View style={[styles.legendaItem, styles.backgroundPerdeu]}>
+                                </View>
+                                <Text>Matérias Perdidas</Text>
+                            </View>
+                            <View style={{ flexDirection: 'row' }}>
+                                <View style={[styles.legendaItem, styles.backgroundSemResultado]}>
+                                </View>
+                                <Text>Matérias Trancadas ou em Curso</Text>
                             </View>
                         </View>
-                        {
-                            Object.keys(this.state.materias).map((semestre, i) => {
-                                
-                                filtrados = this.state.materias[semestre].filter(x => x.NOME.includes(this.state.search) || x.CODIGO.includes(this.state.search) || x.NOTA.includes(this.state.search));
-
-                                return (
-                                    <Card key={i} containerStyle={styles.card} title={semestre}>
-                                        {
-                                            
-                                            filtrados.map((item, j) => {
-                                                estiloNota = parseFloat(item.NOTA) < 5
-                                                    || item.RESULTADO == 'Reprovado Frequencia'
-                                                    || item.RESULTADO == 'Reprovado por Nota'
-                                                    ? styles.backgroundPerdeu : styles.backgroundPassou;
-
-                                                estiloNota = item.RESULTADO == 'Trancamento' || (item.CH == '--' && item.RESULTADO == undefined) ? styles.backgroundSemResultado : estiloNota;
-
-                                                return (
-                                                    <View style={[styles.content, estiloNota]} key={j}>
-                                                        <Text style={styles.subItemTitulo}>{item.CODIGO} - {item.NOME}</Text>
-                                                        <Text style={styles.contentMateria}>
-                                                            <Text style={styles.subItemInfoMateriaTitulo}>
-                                                                CH:
-                                                        </Text>
-                                                            <Text style={styles.subItemInfoMateriaDesc}>
-                                                                {' ' + item.CH}
-                                                            </Text>
-                                                        </Text>
-                                                        <Text style={styles.contentMateria}>
-                                                            <Text style={styles.subItemInfoMateriaTitulo}>
-                                                                Natureza:
-                                                        </Text>
-                                                            <Text style={styles.subItemInfoMateriaDesc}>
-                                                                {' ' + item.NATUREZA}
-                                                            </Text>
-                                                        </Text>
-                                                        <Text style={styles.contentMateria}>
-                                                            <Text style={styles.subItemInfoMateriaTitulo}>
-                                                                Nota:
-                                                        </Text>
-                                                            <Text style={styles.subItemInfoMateriaDesc}>
-                                                                {' ' + item.NOTA}
-                                                            </Text>
-                                                        </Text>
-                                                        <Text style={styles.contentMateria}>
-                                                            <Text style={styles.subItemInfoMateriaTitulo}>
-                                                                Resultado:
-                                                        </Text>
-                                                            <Text style={styles.subItemInfoMateriaDesc}>
-                                                                {' ' + item.RESULTADO == undefined ? '' : item.RESULTADO}
-                                                            </Text>
-                                                        </Text>
-                                                    </View>
-                                                );
-                                            })
-                                        }
-                                    </Card>
-                                );
-                            })
-                        }
+                        <View>
+                            <Input
+                                placeholder='Buscar...'
+                                inputStyle={{ color: 'colorGrayDark', fontSize: 14 }}
+                                onChangeText={(txt) => this.setState({ search: txt.toUpperCase() })}
+                            />
+                        </View>
                     </View>
-                </ScrollView>
+                    <ScrollView>
+                        <View>
+                            {
+                                Object.keys(this.state.materias).map((semestre, i) => {
+
+                                    filtrados = this.state.materias[semestre].filter(x => x.NOME.includes(this.state.search) || x.CODIGO.includes(this.state.search) || x.NOTA.includes(this.state.search));
+
+                                    return (
+                                        <Card key={i} containerStyle={styles.card} title={semestre}>
+                                            {
+
+                                                filtrados.map((item, j) => {
+                                                    estiloNota = parseFloat(item.NOTA) < 5
+                                                        || item.RESULTADO == 'Reprovado Frequencia'
+                                                        || item.RESULTADO == 'Reprovado por Nota'
+                                                        ? styles.backgroundPerdeu : styles.backgroundPassou;
+
+                                                    estiloNota = item.RESULTADO == 'Trancamento' || (item.CH == '--' && item.RESULTADO == undefined) ? styles.backgroundSemResultado : estiloNota;
+
+                                                    return (
+                                                        <View style={[styles.content, estiloNota]} key={j}>
+                                                            <Text style={styles.subItemTitulo}>{item.CODIGO} - {item.NOME}</Text>
+                                                            <Text style={styles.contentMateria}>
+                                                                <Text style={styles.subItemInfoMateriaTitulo}>
+                                                                    CH:
+                                                        </Text>
+                                                                <Text style={styles.subItemInfoMateriaDesc}>
+                                                                    {' ' + item.CH}
+                                                                </Text>
+                                                            </Text>
+                                                            <Text style={styles.contentMateria}>
+                                                                <Text style={styles.subItemInfoMateriaTitulo}>
+                                                                    Natureza:
+                                                        </Text>
+                                                                <Text style={styles.subItemInfoMateriaDesc}>
+                                                                    {' ' + item.NATUREZA}
+                                                                </Text>
+                                                            </Text>
+                                                            <Text style={styles.contentMateria}>
+                                                                <Text style={styles.subItemInfoMateriaTitulo}>
+                                                                    Nota:
+                                                        </Text>
+                                                                <Text style={styles.subItemInfoMateriaDesc}>
+                                                                    {' ' + item.NOTA}
+                                                                </Text>
+                                                            </Text>
+                                                            <Text style={styles.contentMateria}>
+                                                                <Text style={styles.subItemInfoMateriaTitulo}>
+                                                                    Resultado:
+                                                        </Text>
+                                                                <Text style={styles.subItemInfoMateriaDesc}>
+                                                                    {' ' + item.RESULTADO == undefined ? '' : item.RESULTADO}
+                                                                </Text>
+                                                            </Text>
+                                                        </View>
+                                                    );
+                                                })
+                                            }
+                                        </Card>
+                                    );
+                                })
+                            }
+                        </View>
+                    </ScrollView>
+                </View>
             );
         }
     }

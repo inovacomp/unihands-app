@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import NetInfo from "@react-native-community/netinfo";
+import Mixpanel from 'react-native-mixpanel';
 
 module.exports = {
 
@@ -48,5 +49,16 @@ module.exports = {
         min = Math.ceil(min);
         max = Math.floor(max);
         return Math.floor(Math.random() * (max - min)) + min;
-      }
+    },
+    eventoAnalytics(evento){
+        //Init Mixpanel SDK with your project token
+        Mixpanel.sharedInstanceWithToken("6f9fd60aec68c2fbd24cb2963cfc1767").then((mix) => 
+        { 
+            //Send and event name with no properties
+            mix.track(evento);
+
+            //Track event with properties
+            // x.trackWithProperties('Click Button', { button_type: 'yellow button', button_text: 'magic button' });
+        });
+    }
 }

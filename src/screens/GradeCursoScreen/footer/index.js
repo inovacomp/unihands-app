@@ -10,7 +10,7 @@ export default class FooterGradeCurso extends Component {
         super(props);
         this.state = {
             length: 50,
-            textBtn: 'Ver Ementa',
+            textBtn: 'Ver Detalhes',
             materia: '',
             cargaHoraria: '',
             teorica: '',
@@ -35,14 +35,14 @@ export default class FooterGradeCurso extends Component {
         textBtn = this.state.textBtn;
         if (length > 50) {
             length = 50;
-            textBtn = 'Ver Ementa';
+            textBtn = 'Ver Detalhes';
             this.setState({
                 length: length,
                 textBtn: textBtn
             });
         } else {
             length = Dimensions.get('window').height;
-            textBtn = 'Fechar Ementa';
+            textBtn = 'Fechar Detalhes';
             const httpClient = axios.create();
             httpClient.defaults.timeout = 20000;
 

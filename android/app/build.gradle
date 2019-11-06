@@ -194,11 +194,13 @@ android {
 }
 
 dependencies {
+    implementation project(':react-native-mixpanel')
     implementation project(':react-native-pdf')
     implementation project(':rn-fetch-blob')
     implementation project(':react-native-gesture-handler')
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.facebook.react:react-native:+"  // From node_modules
+    implementation project(':react-native-mixpanel')
 
     if (enableHermes) {
       def hermesPath = "../../node_modules/hermesvm/android/";
