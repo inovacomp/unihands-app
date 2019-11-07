@@ -34,7 +34,9 @@ export default class MateriasCursadasScreen extends Component {
         this.setState({
             materias: groupBy(materias, ["PERIODO"]),
             carregou: true
-        })
+        });
+
+        helper.eventoAnalytics('Matérias Cursadas');
     }
 
     render() {

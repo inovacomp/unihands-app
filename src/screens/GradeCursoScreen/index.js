@@ -35,7 +35,9 @@ export default class GradeCursoScreen extends Component {
             materiasObrigatorias: groupBy(materiasObrigatorias, ["SEMESTRE"]),
             materiasCursadas: materiasCursadas,
             carregou: true
-        })
+        });
+
+        helper.eventoAnalytics('Grade do Curso');
     }
 
     //renderiza cada semestre ou seja a lista de materias de cada semestre

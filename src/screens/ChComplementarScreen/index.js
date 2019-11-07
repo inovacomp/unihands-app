@@ -27,6 +27,8 @@ export default class ChComplementarScreen extends Component {
             cargaHoraria: chComplementar,
             carregou: true
         });
+
+        helper.eventoAnalytics('CH Complementar');
     }
 
     //renderiza cada item da lista de carga horarias

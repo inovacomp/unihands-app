@@ -49,7 +49,6 @@ export default class FooterGradeCurso extends Component {
             })
             await httpClient.get(`https://siacapi.ayrtonsilas.com.br/api/get-info-materia/${disciplina}/${periodoInicial}`)
                 .then(async (response) => {
-                    console.log(response.data);
                     this.setState({
                         materia: response.data.materia,
                         cargaHoraria: response.data.cargaHorariaTotal,

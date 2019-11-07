@@ -50,15 +50,15 @@ module.exports = {
         max = Math.floor(max);
         return Math.floor(Math.random() * (max - min)) + min;
     },
-    eventoAnalytics(evento){
+    eventoAnalytics(evento) {
         //Init Mixpanel SDK with your project token
-        Mixpanel.sharedInstanceWithToken("6f9fd60aec68c2fbd24cb2963cfc1767").then((mix) => 
-        { 
+        Mixpanel.sharedInstanceWithToken("f90223d3f07f93da87cb27d6946dc732").then(() => {
             //Send and event name with no properties
-            mix.track(evento);
-
+            Mixpanel.track(evento);
             //Track event with properties
             // x.trackWithProperties('Click Button', { button_type: 'yellow button', button_text: 'magic button' });
+        }).catch(function (e) {
+            
         });
     }
 }

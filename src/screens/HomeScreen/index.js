@@ -55,7 +55,8 @@ export default class HomeScreen extends Component {
             tableHead: ['', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
             tableData: materiasHorarios,
             carregou: true
-        })
+        });
+        helper.eventoAnalytics('Tela Inicial');
     }
 
     //renderiza cada item da lista de matérias do semestre

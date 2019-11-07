@@ -45,6 +45,7 @@ export default class HomeDetalheScreen extends Component {
             perInicial: perInicial,
             carregou: true
         })
+
     }
 
     //gera a lista de informações de cada dia de aula da matéria

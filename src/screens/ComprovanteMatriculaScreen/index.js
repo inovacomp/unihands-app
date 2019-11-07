@@ -7,7 +7,7 @@ import Pdf from 'react-native-pdf';
 
 export default class ComprovanteMatriculaScreen extends Component {
     static navigationOptions = ({ navigation }) => ({
-        title: 'Comprovante de Matrícula'
+        title: 'Comprovante'
     });
     constructor(props) {
         super(props);
@@ -23,6 +23,7 @@ export default class ComprovanteMatriculaScreen extends Component {
             pdf: pdf,
             carregou: true
         });
+        helper.eventoAnalytics('Comprovante de Matrícula');
     }
 
     render() {
