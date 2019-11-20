@@ -7,6 +7,7 @@ import MateriasCursadasScreen from './screens/MateriasCursadasScreen'
 import ChComplementarScreen from './screens/ChComplementarScreen'
 import GradeCursoScreen from './screens/GradeCursoScreen'
 import ComprovanteMatriculaScreen from './screens/ComprovanteMatriculaScreen'
+import ResumoCursoScreen from './screens/ResumoCursoScreen'
 import { colorGreen, colorWhite } from './Colors'
 import {
     View,
@@ -101,6 +102,15 @@ const ComprovanteMatriculaStackNavigator = createStackNavigator(
     }
 )
 
+const ResumoCursoStackNavigator = createStackNavigator(
+    {
+        ResumoCursoScreen
+    },
+    {
+        defaultNavigationOptions: defaultOptions
+    }
+)
+
 
 const MenuContainer = createDrawerNavigator({
     Início: {
@@ -117,6 +127,9 @@ const MenuContainer = createDrawerNavigator({
     },
     "Comprovante de Matrícula": {
         screen: ComprovanteMatriculaStackNavigator
+    },
+    "Resumo Curso": {
+        screen: ResumoCursoStackNavigator
     }
 }, {
         drawerType: 'slide',
