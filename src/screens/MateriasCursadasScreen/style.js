@@ -8,10 +8,56 @@ export default styles = StyleSheet.create({
         flexDirection: 'column',
         alignItems: 'stretch'
     },
+    card: {
+        margin: 10
+    },
+    subItemTitulo: {
+        color: colors.colorBlack,
+        marginVertical: 4,
+        textAlign: "center",
+        fontWeight: 'bold',
+    },
+    content: {
+        padding: 5,
+        borderRadius: 5,
+        marginBottom: 2
+    },
+    contentMateria: {
+        marginVertical: 2
+    },
+    subItemInfoMateriaTitulo: {
+        color: colors.colorBlack,
+        fontWeight: 'bold',
+    },
+    subItemInfoMateriaDesc: {
+        color: colors.colorBlack
+    },
+    textCard: {
+        color: "#FFF",
+        fontSize: 12
+    },
     loading: {
         flex: 1,
         flexDirection: 'column',
         backgroundColor: colors.colorGray,
         justifyContent: 'center'
+    },
+    backgroundPassou: {
+        backgroundColor: colors.colorPassou
+    },
+    backgroundPerdeu: {
+        backgroundColor: colors.colorPerdeu
+    },
+    backgroundSemResultado: {
+        backgroundColor: colors.colorSemResultado
+    },
+    legendaItem: {
+        margin: 2,
+        width: 20,
+        height: 20,
+        borderColor: '#000',
+        borderStyle: 'solid',
+        borderWidth: 1,
+        borderRadius: 50
     }
 })
