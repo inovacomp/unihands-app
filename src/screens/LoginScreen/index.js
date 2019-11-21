@@ -8,6 +8,7 @@ import assets from '../../../assets/assets'
 import { Input, Icon } from 'react-native-elements';
 
 
+
 export default class LoginScreen extends Component {
 
     static navigationOptions = {
@@ -119,20 +120,6 @@ export default class LoginScreen extends Component {
                     await helper.setData('materiasObrigatorias', response.data.MATERIAS_OBRIGATORIAS.MATERIAS_OBRIGATORIAS);
                     await helper.setData('COMPROVANTE_PDF', response.data.COMPROVANTE_PDF);
                     await helper.setData('RESUMO_CURSO', response.data.RESUMO_CURSO);
-
-                    // {
-                    //     "ID": 5,
-                    //     "MODALIDADE": "Subtotal:",
-                    //     "CH": "50"
-                    //   }
-
-                    //             "ID": 57,
-                    // "PERIODO": "Subtotal:",
-                    // "CODIGO": "2346",
-                    // "NOME": "0",
-                    // "CH": "",
-                    // "NATUREZA": "",
-                    // "NOTA": ""
 
                     this.setState({
                         success: true

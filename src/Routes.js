@@ -11,7 +11,7 @@ const AppSwitchNavigator = createSwitchNavigator({
   Dashboard: { screen: MenuContainer }
 },
 {
-  initialRouteName: 'Welcome'
+  initialRouteName: 'Dashboard'
 });
  
 const AppContainer = createAppContainer(AppSwitchNavigator);

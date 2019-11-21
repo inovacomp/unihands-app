@@ -1,11 +1,13 @@
 import React, { Component } from 'react'
-import { View, Text, FlatList, ActivityIndicator } from 'react-native'
+import { View, Text, FlatList, ActivityIndicator, Button } from 'react-native'
 import styles from './style'
 import { Table, Row, Rows } from 'react-native-table-component';
 import { ScrollView } from 'react-native-gesture-handler';
 import { ListItem } from 'react-native-elements';
 import helper from '../../Helper';
-import {colorGreen,colorGray} from '../../Colors'
+import { colorGreen, colorGray } from '../../Colors';
+import axios from 'axios';
+import { NavigationActions, StackActions } from 'react-navigation';
 
 
 export default class HomeScreen extends Component {
@@ -22,7 +24,7 @@ export default class HomeScreen extends Component {
             tableHead: '',
             tableData: '',
             carregou: false,
-            dataAtt : ''
+            dataAtt: ''
         };
     }
 
@@ -59,6 +61,66 @@ export default class HomeScreen extends Component {
         helper.eventoAnalytics('Tela Inicial');
     }
 
+    resetStack = () => {
+        this.props
+            .navigation
+            .dispatch(StackActions.reset({
+                index: 0,
+                actions: [
+                    NavigationActions.navigate({
+                        routeName: 'HomeScreen'
+                    }),
+                ],
+            }))
+    }
+
+    refresh = async () => {
+        this.setState({
+            carregou: !this.state.carregou
+        });
+        let dados = {
+            cpf: await helper.getData('cpf'),
+            senha: await helper.getData('senha')
+        }
+        const httpClient = axios.create();
+        httpClient.defaults.timeout = 15000;
+
+        httpClient.post('https://siacapi.ayrtonsilas.com.br/api/get-dados', dados)
+            .then(async (response) => {
+                if (response.data.ERRO_LOGIN) {
+                    alert('Não foi possível atualizar');
+                } else {
+                    subTotalMateriasCursadas = response.data.COMPONENTES_CURSADOS.MATERIAS_CURSADAS.pop();
+                    subTotalChComplementar = response.data.COMPONENTES_CURSADOS.CARGA_HORARIA_COMPLEMENTAR.pop();
+
+                    await helper.setData('dataAtt', helper.getCurrentDate());
+                    await helper.setData('cpf', dados.cpf);
+                    await helper.setData('senha', dados.senha);
+                    await helper.setData('nome', response.data.COMPROVANTE.NOME);
+                    await helper.setData('matricula', response.data.COMPROVANTE.MATRICULA);
+                    await helper.setData('curso', response.data.COMPROVANTE.CURSO);
+                    await helper.setData('cr', response.data.COMPROVANTE.CR);
+                    await helper.setData('materias_comprovante', response.data.COMPROVANTE.MATERIAS_COMPROVANTE);
+                    await helper.setData('materias_horarios', response.data.COMPROVANTE.MATERIAS_HORARIOS);
+                    await helper.setData('materias_cursadas', response.data.COMPONENTES_CURSADOS.MATERIAS_CURSADAS);
+                    await helper.setData('ch_complementar', response.data.COMPONENTES_CURSADOS.CARGA_HORARIA_COMPLEMENTAR);
+                    await helper.setData('materiasObrigatorias', response.data.MATERIAS_OBRIGATORIAS.MATERIAS_OBRIGATORIAS);
+                    await helper.setData('COMPROVANTE_PDF', response.data.COMPROVANTE_PDF);
+                    await helper.setData('RESUMO_CURSO', response.data.RESUMO_CURSO);
+                    // this.setState({
+                    //     carregou: !this.state.carregou
+                    // });
+                    this.resetStack();
+                }
+            }).catch(async (error) => {
+                alert(error);
+
+                this.setState({
+                    carregou: !this.state.carregou
+                });
+            })
+    }
+
     //renderiza cada item da lista de matérias do semestre
     renderItem = ({ item }) => {
         return (
@@ -71,7 +133,7 @@ export default class HomeScreen extends Component {
                 rightIcon={{ name: "arrow-forward" }}
                 onPress={() => this.clickDetalhe(item)}
                 underlayColor={colorGray}
-                 />
+            />
         )
     }
 
@@ -113,6 +175,7 @@ export default class HomeScreen extends Component {
                         </View>
                         <View>
                             <View style={styles.infoPessoal}>
+                                <Button title={'Atualizar'} onPress={this.refresh} style={styles.atualizar}></Button>
                                 <Text>
                                     <Text style={styles.subItemInfoPessoalTitulo}>
                                         Ultima Atualização:
