@@ -43,7 +43,9 @@ export default styles = StyleSheet.create({
     },
     matSelecionada: {
         backgroundColor: colors.colorGreenEsmerald,
-        color: colors.colorWhite
+        color: colors.colorWhite,
+        borderColor: colors.colorWhite,
+        borderWidth: 2,
     },
     posReq: {
         backgroundColor: colors.colorBlueMarine,

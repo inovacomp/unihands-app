@@ -26,7 +26,18 @@ export default class MateriasCursadasScreen extends Component {
             'percentComplementar':0
         }
     }
+    componentWillUnmount() {
+        this.state.focusSubscription.remove();
+    }
     async componentDidMount() {
+        focusSubscription = this.props.navigation.addListener(
+            'willFocus',
+            payload => {
+                this.forceUpdate();//Native react function to force rerendering
+            }
+        );
+        this.setState({focusSubscription: focusSubscription});
+        alert(1);
         let materias = await helper.getData('materias_cursadas');
         let chComplementar = await helper.getData('ch_complementar');
         let resumo = await helper.getData('RESUMO_CURSO');
@@ -42,7 +53,7 @@ export default class MateriasCursadasScreen extends Component {
                 totalObrigatoriasCursadas += parseInt(x.CH);
             }
         });
-        materias.filter(x => x.NATUREZA == 'OP').map(x => {
+        materias.filter(x => x.NATUREZA != 'OB').map(x => {
             if (!isNaN(parseInt(x.CH))) {
                 totalOptativaCursadas += parseInt(x.CH);
             }
@@ -97,7 +108,7 @@ export default class MateriasCursadasScreen extends Component {
                                         Total Obrigatórias Cursadas:
                                     </Text>
                                     <Text style={styles.subItemInfoPessoalDesc}>
-                                        {' ' + this.state.totalObrigatoriasCursadas}
+                                        {' ' + this.state.totalObrigatoriasCursadas}h
                                     </Text>
                                 </Text>
                             </View>
@@ -107,7 +118,7 @@ export default class MateriasCursadasScreen extends Component {
                                         Total Optativas Cursadas:
                                     </Text>
                                     <Text style={styles.subItemInfoPessoalDesc}>
-                                        {' ' + this.state.totalOptativaCursadas}
+                                        {' ' + this.state.totalOptativaCursadas}h
                                     </Text>
                                 </Text>
                             </View>
@@ -117,7 +128,7 @@ export default class MateriasCursadasScreen extends Component {
                                         CH Complementar Realizada:
                                     </Text>
                                     <Text style={styles.subItemInfoPessoalDesc}>
-                                        {' ' + this.state.totalChComplementarCursadas}
+                                        {' ' + this.state.totalChComplementarCursadas}h
                                     </Text>
                                 </Text>
                             </View>
@@ -127,7 +138,7 @@ export default class MateriasCursadasScreen extends Component {
                                         Total Obrigatórias do Curso:
                                     </Text>
                                     <Text style={styles.subItemInfoPessoalDesc}>
-                                        {' ' + this.state.totalObrigatoriaCurso}
+                                        {' ' + this.state.totalObrigatoriaCurso}h
                                     </Text>
                                 </Text>
                             </View>
@@ -137,7 +148,7 @@ export default class MateriasCursadasScreen extends Component {
                                         Total Optativas do Curso:
                                     </Text>
                                     <Text style={styles.subItemInfoPessoalDesc}>
-                                        {' ' + this.state.totalOptativaCurso}
+                                        {' ' + this.state.totalOptativaCurso}h
                                     </Text>
                                 </Text>
                             </View>
@@ -147,7 +158,7 @@ export default class MateriasCursadasScreen extends Component {
                                         Total CH Complementar do Curso:
                                     </Text>
                                     <Text style={styles.subItemInfoPessoalDesc}>
-                                        {' ' + this.state.totalChComplementarCurso}
+                                        {' ' + this.state.totalChComplementarCurso}h
                                     </Text>
                                 </Text>
                             </View>
