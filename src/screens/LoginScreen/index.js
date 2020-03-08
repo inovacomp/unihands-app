@@ -87,7 +87,7 @@ export default class LoginScreen extends Component {
     onPressLinkDownload = async () => {
         await helper.setData('ultimaAtt', this.state.ultimaAtt);
 
-        return Linking.openURL('https://siacapi.ayrtonsilas.com.br/api/download-apk')
+        return Linking.openURL('https://siacapi.ayrtonsilas.com.br/api/apk')
     }
     async verificarConexao() {
         let internet = await helper.CheckConnectivity();
