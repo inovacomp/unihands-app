@@ -37,7 +37,7 @@ export default class ChComplementarScreen extends Component {
             <ListItem
                 containerStyle={styles.itemList}
                 title={item.MODALIDADE}
-                subtitle={item.CH}
+                subtitle={`${item.CH}h`}
                 titleStyle={styles.textList}
                 subtitleStyle={styles.textList}
                 underlayColor={colorGray}
@@ -49,17 +49,20 @@ export default class ChComplementarScreen extends Component {
         if (!this.state.carregou) {
             return (<View style={styles.loading}><ActivityIndicator /></View>)
         } else {
-            return (
-                <ScrollView style={{flex:1,backgroundColor: colorGray}}>
-                    <View style={styles.background}>
-                        <FlatList
-                            data={this.state.cargaHoraria}
-                            keyExtractor={item => item.ID.toString()}
-                            renderItem={this.renderItem}
-                        />
-                    </View>
-                </ScrollView>
-            );
+            if(this.state.cargaHoraria)
+                return (
+                    <ScrollView style={{flex:1,backgroundColor: colorGray}}>
+                        <View style={styles.background}>
+                            <FlatList
+                                data={this.state.cargaHoraria}
+                                keyExtractor={item => item.ID.toString()}
+                                renderItem={this.renderItem}
+                            />
+                        </View>
+                    </ScrollView>
+                );
+            else
+                return (<View><Text>Você não possui carga horária complementar.</Text></View>);
         }
     }
 }

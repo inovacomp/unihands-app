@@ -29,7 +29,11 @@ export default class LoginScreen extends Component {
             internet: false,
             tipoConexao: '',
             disabled: false,
-            'txtBtnEntrar': 'Entrar'
+            'txtBtnEntrar': 'Entrar',
+            'temAtt': false,
+            'enderecoAtt': '',
+            'ultimaAtt' : 0,
+            'carregou': false
         };
     }
 
@@ -43,8 +47,48 @@ export default class LoginScreen extends Component {
                 senha: senha
             });
         }
+
+        if (this.state.internet) {
+            const httpClient = axios.create();
+            httpClient.defaults.timeout = 15000;
+            await httpClient.get(`https://siacapi.ayrtonsilas.com.br/api/verifica-atualizacao`)
+                .then(async (response) => {
+                    let ultimaAtt = await helper.getData('ultimaAtt');
+                    let temAtt = false;
+                    if(ultimaAtt){
+                        if(parseInt(ultimaAtt) < response.data.ULTIMA_ATT){
+                            temAtt = true;
+                        }
+                    }
+                    else{
+                        await helper.setData('ultimaAtt', response.data.ULTIMA_ATT);
+                    }
+
+                    this.setState({
+                        'temAtt': temAtt,
+                        'enderecoAtt': response.data.ENDERECO_ATT,
+                        'ultimaAtt' : response.data.ULTIMA_ATT,
+                        'carregou': true
+                    })
+                })
+                .catch(async (error) => {
+                    this.setState({
+                        'carregou': true
+                    })
+                });
+        }
+        else {
+            this.setState({
+                'carregou': true
+            })
+        }
     }
 
+    onPressLinkDownload = async () => {
+        await helper.setData('ultimaAtt', this.state.ultimaAtt);
+
+        return Linking.openURL('https://siacapi.ayrtonsilas.com.br/api/download-apk')
+    }
     async verificarConexao() {
         let internet = await helper.CheckConnectivity();
         this.setState({
@@ -156,66 +200,73 @@ export default class LoginScreen extends Component {
 
     render() {
         const { showAlert, msgerro } = this.state;
-        return (
-            <ImageBackground source={assets.bg}
-                imageStyle={{ resizeMode: 'stretch' }}
-                style={styles.background}
-            >
-                <View style={styles.backgroundOpacity}>
-                    {this.state.isLoading ?
-                        <View>
-                            <ActivityIndicator />
-                        </View> :
-                        null
-                    }
-                    <Text style={styles.titulo}>Seja bem vindo(a) ao SIAC Mobile</Text>
+        if (this.state.temAtt) {
+            return (<View><TouchableOpacity onPress={this.onPressLinkDownload} style={{ marginVertical: 100, width: '90%', alignSelf: 'center', padding: 5, borderRadius: 10 }} ><Text style={{ textAlign: 'center', color: '#e67e22', fontWeight: 'bold', textDecorationLine: 'underline' }} >Tem uma nova atualização, clique para baixar.</Text></TouchableOpacity></View>)
+        }
+        else if (!this.state.carregou) {
+            return (<View style={styles.loading}><ActivityIndicator /></View>)
+        } else {
+            return (
+                <ImageBackground source={assets.bg}
+                    imageStyle={{ resizeMode: 'stretch' }}
+                    style={styles.background}
+                >
+                    <View style={styles.backgroundOpacity}>
+                        {this.state.isLoading ?
+                            <View>
+                                <ActivityIndicator />
+                            </View> :
+                            null
+                        }
+                        <Text style={styles.titulo}>Seja bem vindo(a) ao SIAC Mobile</Text>
 
-                    <Input leftIcon={
-                        <Icon
-                            name='perm-identity'
-                            size={24}
-                            color="#2c3e50"
+                        <Input leftIcon={
+                            <Icon
+                                name='perm-identity'
+                                size={24}
+                                color="#2c3e50"
+                            />
+                        } placeholder='CPF'
+                            value={this.state.cpf}
+                            inputStyle={styles.input}
+                            onChangeText={(cpf) => this.setState({ cpf: cpf })} />
+
+                        <Input leftIcon={
+                            <Icon
+                                name='lock'
+                                size={24}
+                                color="#2c3e50"
+                            />
+                        } placeholder="Senha"
+                            value={this.state.senha}
+                            secureTextEntry={true}
+                            inputStyle={styles.input}
+                            onChangeText={(senha) => this.setState({ senha: senha })} />
+
+                        <TouchableOpacity disabled={this.state.disabled} onPress={this.sendSubmit}>
+                            <View>
+                                <Text style={styles.btnEntrar}>{this.state.txtBtnEntrar}</Text>
+                            </View>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={{ backgroundColor: '#FFF', width: '50%', alignSelf: 'center', padding: 5, borderRadius: 10 }} onPress={() => this.props.navigation.navigate('InfoLogin')}><Text style={{ textAlign: 'center', color: '#e67e22', fontWeight: 'bold', textDecorationLine: 'underline' }} >Informações Sobre o APP</Text></TouchableOpacity>
+                        <TouchableOpacity onPress={() => Linking.openURL('https://docs.google.com/forms/d/e/1FAIpQLScOL9_YzjMgMfcIzXM2WKfusQShD5Nb5OZFtkgg4OPPPsoPqQ/viewform')} style={{ margin: 10, backgroundColor: '#FFF', width: '50%', alignSelf: 'center', padding: 5, borderRadius: 10 }} ><Text style={{ textAlign: 'center', color: '#e67e22', fontWeight: 'bold', textDecorationLine: 'underline' }} >Avalie no Google Forms</Text></TouchableOpacity>
+                        <AwesomeAlert
+                            show={showAlert}
+                            showProgress={false}
+                            title="Erro"
+                            message={msgerro}
+                            closeOnTouchOutside={true}
+                            closeOnHardwareBackPress={false}
+                            showCancelButton={true}
+                            cancelText="Fechar"
+                            cancelButtonColor="#DD6B55"
+                            onCancelPressed={() => {
+                                this.hideAlert();
+                            }}
                         />
-                    } placeholder='CPF'
-                        value={this.state.cpf}
-                        inputStyle={styles.input}
-                        onChangeText={(cpf) => this.setState({ cpf: cpf })} />
-
-                    <Input leftIcon={
-                        <Icon
-                            name='lock'
-                            size={24}
-                            color="#2c3e50"
-                        />
-                    } placeholder="Senha"
-                        value={this.state.senha}
-                        secureTextEntry={true}
-                        inputStyle={styles.input}
-                        onChangeText={(senha) => this.setState({ senha: senha })} />
-
-                    <TouchableOpacity disabled={this.state.disabled} onPress={this.sendSubmit}>
-                        <View>
-                            <Text style={styles.btnEntrar}>{this.state.txtBtnEntrar}</Text>
-                        </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={{backgroundColor:'#FFF',width:'50%',alignSelf:'center',padding:5,borderRadius:10}} onPress={() => this.props.navigation.navigate('InfoLogin')}><Text style={{textAlign:'center',color:'#e67e22',fontWeight:'bold',textDecorationLine:'underline'}} >Informações Sobre o APP</Text></TouchableOpacity>
-                    <TouchableOpacity onPress={() => Linking.openURL('https://docs.google.com/forms/d/e/1FAIpQLScOL9_YzjMgMfcIzXM2WKfusQShD5Nb5OZFtkgg4OPPPsoPqQ/viewform')} style={{margin:10,backgroundColor:'#FFF',width:'50%',alignSelf:'center',padding:5,borderRadius:10}} ><Text style={{textAlign:'center',color:'#e67e22',fontWeight:'bold',textDecorationLine:'underline'}} >Avalie no Google Forms</Text></TouchableOpacity>
-                    <AwesomeAlert
-                        show={showAlert}
-                        showProgress={false}
-                        title="Erro"
-                        message={msgerro}
-                        closeOnTouchOutside={true}
-                        closeOnHardwareBackPress={false}
-                        showCancelButton={true}
-                        cancelText="Fechar"
-                        cancelButtonColor="#DD6B55"
-                        onCancelPressed={() => {
-                            this.hideAlert();
-                        }}
-                    />
-                </View>
-            </ImageBackground >
-        )
+                    </View>
+                </ImageBackground >
+            )
+        }
     }
 }

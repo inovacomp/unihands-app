@@ -23,12 +23,12 @@ export default class MateriasCursadasScreen extends Component {
             'totalChComplementarCurso': 0,
             'percentObrigatoria': 0,
             'percentOptativa': 0,
-            'percentComplementar':0
+            'percentComplementar': 0
         }
     }
-    
+
     async componentDidMount() {
-         
+
         let materias = await helper.getData('materias_cursadas');
         let chComplementar = await helper.getData('ch_complementar');
         let resumo = await helper.getData('RESUMO_CURSO');
@@ -39,13 +39,14 @@ export default class MateriasCursadasScreen extends Component {
         let totalOptativaCurso = 0;
         let totalChComplementarCurso = 0;
 
-        materias.filter(x => x.NATUREZA == 'OB' && parseFloat(x.NOTA) >= 5 ).map(x => {
-            if (!isNaN(parseInt(x.CH))) {
-                totalObrigatoriasCursadas += parseInt(x.CH);
-            }
-        });
-        materias.filter(x => x.NATUREZA != 'OB' && 
-            x.RESULTADO != 'Reprovado por Nota' && x.RESULTADO != 'Reprovado Frequencia' )
+        materias.filter(x => ((x.NATUREZA == 'OB' && parseFloat(x.NOTA) >= 5) || x.RESULTADO == 'Dispensado'))
+            .map(x => {
+                if (!isNaN(parseInt(x.CH))) {
+                    totalObrigatoriasCursadas += parseInt(x.CH);
+                }
+            });
+        materias.filter(x => x.NATUREZA != 'OB' &&
+            x.RESULTADO != 'Reprovado por Nota' && x.RESULTADO != 'Reprovado Frequencia')
             .map(x => {
                 if (!isNaN(parseInt(x.CH))) {
                     totalOptativaCursadas += parseInt(x.CH);
@@ -81,7 +82,8 @@ export default class MateriasCursadasScreen extends Component {
             'totalChComplementarCurso': totalChComplementarCurso,
             'percentObrigatoria': ((totalObrigatoriasCursadas * 100) / totalObrigatoriasCurso) / 100,
             'percentOptativa': ((totalOptativaCursadas * 100) / totalOptativaCurso) / 100,
-            'percentComplementar': ((totalChComplementarCursadas * 100) / totalChComplementarCurso) / 100
+            'percentComplementar': ((totalChComplementarCursadas * 100) / totalChComplementarCurso) / 100,
+            'percentTotal': (((totalObrigatoriasCursadas + totalOptativaCursadas + totalChComplementarCursadas) * 100) / (totalObrigatoriasCurso + totalOptativaCurso + totalChComplementarCurso)) / 100
         });
 
         helper.eventoAnalytics('Resumo Curso');
@@ -125,6 +127,7 @@ export default class MateriasCursadasScreen extends Component {
                                     </Text>
                                 </Text>
                             </View>
+                            <View><Text></Text></View>
                             <View style={styles.infoPessoal}>
                                 <Text>
                                     <Text style={styles.subItemInfoPessoalTitulo}>
@@ -157,12 +160,13 @@ export default class MateriasCursadasScreen extends Component {
                             </View>
 
                         </View>
+                        <View><Text></Text></View>
                         <View>
                             <View style={styles.infoPessoal}>
                                 <Text style={styles.progress}>
                                     Progresso Obrigatórias: {Math.round(this.state.percentObrigatoria * 100)}%
                                     </Text>
-                                <Progress.Pie color={'#5f27cd'} style={{alignItems:'center'}} progress={this.state.percentObrigatoria} size={100} />
+                                <Progress.Bar width={null} height={15} size={100} progress={this.state.percentObrigatoria} />
                             </View>
                         </View>
                         <View>
@@ -170,7 +174,7 @@ export default class MateriasCursadasScreen extends Component {
                                 <Text style={styles.progress}>
                                     Progresso Optativas: {Math.round(this.state.percentOptativa * 100)}%
                                     </Text>
-                                <Progress.Pie color={'#5f27cd'} style={{alignItems:'center'}} progress={this.state.percentOptativa} size={100} />
+                                <Progress.Bar width={null} height={15} size={100} progress={this.state.percentOptativa} />
                             </View>
                         </View>
                         <View>
@@ -178,7 +182,15 @@ export default class MateriasCursadasScreen extends Component {
                                 <Text style={styles.progress}>
                                     Progresso Complementar: {Math.round(this.state.percentComplementar * 100)}%
                                     </Text>
-                                <Progress.Pie color={'#5f27cd'} style={{alignItems:'center'}} progress={this.state.percentComplementar} size={100} />
+                                <Progress.Bar width={null} height={15} size={100} progress={this.state.percentComplementar} />
+                            </View>
+                        </View>
+                        <View>
+                            <View style={styles.infoPessoal}>
+                                <Text style={styles.progress}>
+                                    Progresso Total: {Math.round(this.state.percentTotal * 100)}%
+                                    </Text>
+                                <Progress.Bar width={null} height={15} size={100} progress={this.state.percentTotal} />
                             </View>
                         </View>
                     </ScrollView>

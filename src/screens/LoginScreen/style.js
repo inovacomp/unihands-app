@@ -52,5 +52,11 @@ export default styles = StyleSheet.create({
         borderRadius: 50,
         fontWeight:'bold',
         elevation: 3,
+    },
+    loading: {
+        flex: 1,
+        flexDirection: 'column',
+        backgroundColor: colors.colorGray,
+        justifyContent: 'center'
     }
 })
