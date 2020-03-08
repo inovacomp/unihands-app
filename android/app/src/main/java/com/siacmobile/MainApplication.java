@@ -1,4 +1,4 @@
-package com.siacapp;
+package com.siacmobile;
 
 import android.app.Application;
 import android.util.Log;
