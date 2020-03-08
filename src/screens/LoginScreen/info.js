@@ -12,7 +12,7 @@ export default class InfoLogin extends Component {
 
                 <Text style={{ fontWeight: 'bold', fontSize: 14, textAlign: 'center', padding: 10 }}>Informações Sobre o Aplicativo</Text>
                 <Text style={{ fontSize: 14, textAlign: 'justify', padding: 10 }}>- Esse aplicativo foi desenvolvido para um projeto de conclusão do curso de Sistemas de Informação da UFBA.</Text>
-                <Text style={{ fontSize: 14, textAlign: 'justify', padding: 10 }}>- Criado por Ayrton Silas Silva Guimarães, tendo como orientador o professor Rodrigo Rocha.</Text>
+                <Text style={{ fontSize: 14, textAlign: 'justify', padding: 10 }}>- Criado por Ayrton Silas Silva Guimarães.</Text>
                 <Text style={{ fontSize: 14, textAlign: 'justify', padding: 10 }}>- Dúvidas, Sugestões, Bugs, etc. Entre em contato através do e-mail: ayrtonsilasguimaraes@gmail.com</Text>
                 <Text style={{ fontWeight: 'bold', fontSize: 14, textAlign: 'center', padding: 10, color: '#e74c3c' }}>IMPORTANTE!</Text>
                 <Text style={{ fontWeight: 'bold', fontSize: 14, textAlign: 'justify', padding: 10 }}>- Esse aplicativo não faz uso, nem armazena nenhum dado do usuário em servidores ou banco de dados.</Text>

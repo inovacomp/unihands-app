@@ -23,6 +23,10 @@ export default class ChComplementarScreen extends Component {
     async componentDidMount() {
         let chComplementar = await helper.getData('ch_complementar');
 
+        if(chComplementar == undefined || chComplementar == null){
+            chComplementar = [];
+        }
+
         this.setState({
             cargaHoraria: chComplementar,
             carregou: true
@@ -49,7 +53,7 @@ export default class ChComplementarScreen extends Component {
         if (!this.state.carregou) {
             return (<View style={styles.loading}><ActivityIndicator /></View>)
         } else {
-            if(this.state.cargaHoraria)
+            if(this.state.cargaHoraria.length > 0)
                 return (
                     <ScrollView style={{flex:1,backgroundColor: colorGray}}>
                         <View style={styles.background}>
@@ -62,7 +66,7 @@ export default class ChComplementarScreen extends Component {
                     </ScrollView>
                 );
             else
-                return (<View><Text>Você não possui carga horária complementar.</Text></View>);
+                return (<View><Text style={{textAlign:'center',paddingTop:20}}>Você não possui carga horária complementar.</Text></View>);
         }
     }
 }
