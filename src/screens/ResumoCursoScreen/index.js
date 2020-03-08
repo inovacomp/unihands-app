@@ -26,18 +26,9 @@ export default class MateriasCursadasScreen extends Component {
             'percentComplementar':0
         }
     }
-    componentWillUnmount() {
-        this.state.focusSubscription.remove();
-    }
+    
     async componentDidMount() {
-        focusSubscription = this.props.navigation.addListener(
-            'willFocus',
-            payload => {
-                this.forceUpdate();//Native react function to force rerendering
-            }
-        );
-        this.setState({focusSubscription: focusSubscription});
-        alert(1);
+         
         let materias = await helper.getData('materias_cursadas');
         let chComplementar = await helper.getData('ch_complementar');
         let resumo = await helper.getData('RESUMO_CURSO');
@@ -48,16 +39,18 @@ export default class MateriasCursadasScreen extends Component {
         let totalOptativaCurso = 0;
         let totalChComplementarCurso = 0;
 
-        materias.filter(x => x.NATUREZA == 'OB').map(x => {
+        materias.filter(x => x.NATUREZA == 'OB' && parseFloat(x.NOTA) >= 5 ).map(x => {
             if (!isNaN(parseInt(x.CH))) {
                 totalObrigatoriasCursadas += parseInt(x.CH);
             }
         });
-        materias.filter(x => x.NATUREZA != 'OB').map(x => {
-            if (!isNaN(parseInt(x.CH))) {
-                totalOptativaCursadas += parseInt(x.CH);
-            }
-        });
+        materias.filter(x => x.NATUREZA != 'OB' && 
+            x.RESULTADO != 'Reprovado por Nota' && x.RESULTADO != 'Reprovado Frequencia' )
+            .map(x => {
+                if (!isNaN(parseInt(x.CH))) {
+                    totalOptativaCursadas += parseInt(x.CH);
+                }
+            });
 
         chComplementar.map(x => {
             totalChComplementarCursadas += parseInt(x.CH);

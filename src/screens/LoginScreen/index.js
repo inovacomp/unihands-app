@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
-import { ImageBackground, Text, TouchableOpacity, View, ActivityIndicator } from 'react-native'
+import { ImageBackground, Text, TouchableOpacity, View, ActivityIndicator, Linking } from 'react-native'
 import AwesomeAlert from 'react-native-awesome-alerts';
 import axios from 'axios';
 import styles from './style'
 import helper from '../../Helper'
 import assets from '../../../assets/assets'
 import { Input, Icon } from 'react-native-elements';
+
 
 
 
@@ -197,7 +198,8 @@ export default class LoginScreen extends Component {
                             <Text style={styles.btnEntrar}>{this.state.txtBtnEntrar}</Text>
                         </View>
                     </TouchableOpacity>
-
+                    <TouchableOpacity style={{backgroundColor:'#FFF',width:'50%',alignSelf:'center',padding:5,borderRadius:10}} onPress={() => this.props.navigation.navigate('InfoLogin')}><Text style={{textAlign:'center',color:'#e67e22',fontWeight:'bold',textDecorationLine:'underline'}} >Informações Sobre o APP</Text></TouchableOpacity>
+                    <TouchableOpacity onPress={() => Linking.openURL('https://docs.google.com/forms/d/e/1FAIpQLScOL9_YzjMgMfcIzXM2WKfusQShD5Nb5OZFtkgg4OPPPsoPqQ/viewform')} style={{margin:10,backgroundColor:'#FFF',width:'50%',alignSelf:'center',padding:5,borderRadius:10}} ><Text style={{textAlign:'center',color:'#e67e22',fontWeight:'bold',textDecorationLine:'underline'}} >Avalie no Google Forms</Text></TouchableOpacity>
                     <AwesomeAlert
                         show={showAlert}
                         showProgress={false}
